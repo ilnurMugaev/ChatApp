@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		BF08FACD25D8830D00D33DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FACC25D8830D00D33DEF /* AppDelegate.swift */; };
-		BF08FACF25D8830D00D33DEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FACE25D8830D00D33DEF /* SceneDelegate.swift */; };
 		BF08FAD125D8830D00D33DEF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FAD025D8830D00D33DEF /* ViewController.swift */; };
 		BF08FAD425D8830D00D33DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD225D8830D00D33DEF /* Main.storyboard */; };
 		BF08FAD625D8830E00D33DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD525D8830E00D33DEF /* Assets.xcassets */; };
 		BF08FAD925D8830E00D33DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */; };
+		BF08FAE325D8849800D33DEF /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FAE225D8849800D33DEF /* Logging.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BF08FAC925D8830D00D33DEF /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF08FACC25D8830D00D33DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BF08FACE25D8830D00D33DEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BF08FAD025D8830D00D33DEF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BF08FAD325D8830D00D33DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BF08FAD525D8830E00D33DEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF08FAD825D8830E00D33DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF08FADA25D8830E00D33DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF08FAE225D8849800D33DEF /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				BF08FACC25D8830D00D33DEF /* AppDelegate.swift */,
-				BF08FACE25D8830D00D33DEF /* SceneDelegate.swift */,
+				BF08FAE225D8849800D33DEF /* Logging.swift */,
 				BF08FAD025D8830D00D33DEF /* ViewController.swift */,
 				BF08FAD225D8830D00D33DEF /* Main.storyboard */,
 				BF08FAD525D8830E00D33DEF /* Assets.xcassets */,
@@ -95,6 +95,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
+				ORGANIZATIONNAME = "Ilnur Mugaev";
 				TargetAttributes = {
 					BF08FAC825D8830D00D33DEF = {
 						CreatedOnToolsVersion = 12.4;
@@ -139,7 +140,7 @@
 			files = (
 				BF08FAD125D8830D00D33DEF /* ViewController.swift in Sources */,
 				BF08FACD25D8830D00D33DEF /* AppDelegate.swift in Sources */,
-				BF08FACF25D8830D00D33DEF /* SceneDelegate.swift in Sources */,
+				BF08FAE325D8849800D33DEF /* Logging.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +217,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -271,7 +272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
