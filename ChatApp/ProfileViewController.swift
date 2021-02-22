@@ -28,6 +28,11 @@ class ProfileViewController: UIViewController {
     }()
     
     private let buttonCornerRadius: CGFloat = 14
+    private let actionSheetTitle = "Choose your profile photo"
+    private let cameraTitle = "Camera"
+    private let photoTitle = "Photo"
+    private let cancelTitle = "Cancel"
+    
         
     // Срабатывает после загрузки view.
     override func viewDidLoad() {
@@ -38,6 +43,9 @@ class ProfileViewController: UIViewController {
         nameTextView.text = userName
         descriptionTextView.text = userDescription
         initialsLabel.text = userInitials
+        editButton.layer.cornerRadius = buttonCornerRadius
+        
+        setupGestures()
     }
     
     // Срабатывает перед появлением view на экране.
@@ -59,11 +67,11 @@ class ProfileViewController: UIViewController {
     
     // Срабатывает после того, как размер view изменился под размер экрана.
     override func viewDidLayoutSubviews() {
-        editButton.layer.cornerRadius = buttonCornerRadius
+        logging.printLog()
+        
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
         let initialsFonSize = avatarImageView.bounds.height / 2
         initialsLabel.font = UIFont.systemFont(ofSize: initialsFonSize)
-        logging.printLog()
     }
         
     // Сработает перед тем, как view закроется.
@@ -76,5 +84,79 @@ class ProfileViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         logging.printLog()
+    }
+    
+    // MARK: - Setup gesters -
+    
+    private func setupGestures() {
+        
+        avatarImageView.isUserInteractionEnabled = true
+        let avatarGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnImageView(_:)))
+        avatarImageView.addGestureRecognizer(avatarGesture)
+    }
+    
+    @objc private func tappedOnImageView(_ sender: UIGestureRecognizer) {
+        
+        let actionSheet = UIAlertController(title: actionSheetTitle,
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+        
+        let camera = UIAlertAction(title: cameraTitle, style: .default) { _ in
+            self.chooseImagePicker(source: .camera)
+        }
+        
+        let photo = UIAlertAction(title: photoTitle, style: .default) { _ in
+            self.chooseImagePicker(source: .photoLibrary)
+        }
+        
+        let cancel = UIAlertAction(title: cancelTitle, style: .cancel)
+        
+        actionSheet.addAction(camera)
+        actionSheet.addAction(photo)
+        actionSheet.addAction(cancel)
+        
+        actionSheet.pruneNegativeWidthConstraints()
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+//MARK: - Work with image -
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    /// Choose image:
+    /// - Parameter source: source type.
+    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+        
+        guard UIImagePickerController.isSourceTypeAvailable(source) else { return }
+        
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = source
+            present(imagePicker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        avatarImageView.image = info[.editedImage] as? UIImage
+        avatarImageView.contentMode = .scaleAspectFill
+        avatarImageView.clipsToBounds = true
+        initialsLabel.isHidden = true
+        dismiss(animated: true)
+    }
+}
+
+//MARK: - Fix break constraint UIActionSheet -
+
+extension UIAlertController {
+    func pruneNegativeWidthConstraints() {
+        for subView in self.view.subviews {
+            for constraint in subView.constraints where constraint.debugDescription.contains("width == - 16") {
+                subView.removeConstraint(constraint)
+            }
+        }
     }
 }
