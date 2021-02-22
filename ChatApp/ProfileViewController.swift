@@ -33,12 +33,20 @@ class ProfileViewController: UIViewController {
     private let photoTitle = "Photo"
     private let cancelTitle = "Cancel"
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        logging.printLog()
+//        logging.printLog(property: "editButton.frame: \(editButton.frame)")
+//        В этом методе получаем ошибку, т.к. элементы пользовательского интерфейса UIView и subviews еще не загружены.
+        
+    }
         
     // Срабатывает после загрузки view.
     override func viewDidLoad() {
         super.viewDidLoad()
         
         logging.printLog()
+        logging.printLog(property: "editButton.frame: \(editButton.frame)")
         
         nameTextView.text = userName
         descriptionTextView.text = userDescription
@@ -58,6 +66,8 @@ class ProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         logging.printLog()
+        logging.printLog(property: "editButton.frame: \(editButton.frame)")
+//        Значения editButton.frame в данном методе отличается от значений в методе viewDidLoad т.к. окончательные размеры view и subviews определяются в методе viewDidLayoutSubviews.
     }
     
     // Срабатывает перед тем, как размер view изменится под размер экрана.
