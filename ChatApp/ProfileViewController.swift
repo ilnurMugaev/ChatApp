@@ -97,6 +97,9 @@ class ProfileViewController: UIViewController {
     
     @objc private func tappedOnImageView(_ sender: UIGestureRecognizer) {
         
+        let cameraIcon = #imageLiteral(resourceName: "camera")
+        let photoIcon = #imageLiteral(resourceName: "photo")
+        
         let actionSheet = UIAlertController(title: actionSheetTitle,
                                             message: nil,
                                             preferredStyle: .actionSheet)
@@ -104,10 +107,14 @@ class ProfileViewController: UIViewController {
         let camera = UIAlertAction(title: cameraTitle, style: .default) { _ in
             self.chooseImagePicker(source: .camera)
         }
+        camera.setValue(cameraIcon, forKey: "image")
+        camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
         let photo = UIAlertAction(title: photoTitle, style: .default) { _ in
             self.chooseImagePicker(source: .photoLibrary)
         }
+        photo.setValue(photoIcon, forKey: "image")
+        photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
         let cancel = UIAlertAction(title: cancelTitle, style: .cancel)
         
