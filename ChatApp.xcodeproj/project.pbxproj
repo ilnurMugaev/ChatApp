@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		BF08FACD25D8830D00D33DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FACC25D8830D00D33DEF /* AppDelegate.swift */; };
 		BF08FAD125D8830D00D33DEF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FAD025D8830D00D33DEF /* ProfileViewController.swift */; };
-		BF08FAD425D8830D00D33DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD225D8830D00D33DEF /* Main.storyboard */; };
+		BF08FAD425D8830D00D33DEF /* ProfileView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD225D8830D00D33DEF /* ProfileView.storyboard */; };
 		BF08FAD625D8830E00D33DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD525D8830E00D33DEF /* Assets.xcassets */; };
 		BF08FAD925D8830E00D33DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */; };
 		BF08FAE325D8849800D33DEF /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FAE225D8849800D33DEF /* Logging.swift */; };
@@ -25,7 +25,7 @@
 		BF08FAC925D8830D00D33DEF /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF08FACC25D8830D00D33DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF08FAD025D8830D00D33DEF /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		BF08FAD325D8830D00D33DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BF08FAD325D8830D00D33DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfileView.storyboard; sourceTree = "<group>"; };
 		BF08FAD525D8830E00D33DEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF08FAD825D8830E00D33DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF08FADA25D8830E00D33DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 				BF08FACC25D8830D00D33DEF /* AppDelegate.swift */,
 				BF08FAE225D8849800D33DEF /* Logging.swift */,
 				BF08FAD025D8830D00D33DEF /* ProfileViewController.swift */,
-				BF08FAD225D8830D00D33DEF /* Main.storyboard */,
+				BF08FAD225D8830D00D33DEF /* ProfileView.storyboard */,
 				BF7C432E25EAE65500581B04 /* ConversationsList */,
 				BF08FAD525D8830E00D33DEF /* Assets.xcassets */,
 				BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */,
@@ -179,7 +179,7 @@
 				BF7C432C25EAE64500581B04 /* ConversationsList.storyboard in Resources */,
 				BF7C433425EAE80100581B04 /* ConversationsListCell.xib in Resources */,
 				BF08FAD625D8830E00D33DEF /* Assets.xcassets in Resources */,
-				BF08FAD425D8830D00D33DEF /* Main.storyboard in Resources */,
+				BF08FAD425D8830D00D33DEF /* ProfileView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,12 +203,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BF08FAD225D8830D00D33DEF /* Main.storyboard */ = {
+		BF08FAD225D8830D00D33DEF /* ProfileView.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				BF08FAD325D8830D00D33DEF /* Base */,
 			);
-			name = Main.storyboard;
+			name = ProfileView.storyboard;
 			sourceTree = "<group>";
 		};
 		BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */ = {

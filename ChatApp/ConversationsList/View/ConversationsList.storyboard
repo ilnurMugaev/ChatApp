@@ -31,8 +31,15 @@
                             <constraint firstItem="WzQ-Ko-HHk" firstAttribute="bottom" secondItem="p1H-TL-pRg" secondAttribute="bottom" id="t8g-7g-yzw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="ESY-7e-YPn"/>
+                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="ESY-7e-YPn">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="RFu-eO-1iV">
+                            <connections>
+                                <action selector="profileBarButtonTapped:" destination="KwI-hi-gjJ" id="kEh-Av-Qc4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="profileBarButton" destination="RFu-eO-1iV" id="ea2-yT-JeQ"/>
                         <outlet property="tableView" destination="WzQ-Ko-HHk" id="lDi-7V-7Dk"/>
                     </connections>
                 </viewController>

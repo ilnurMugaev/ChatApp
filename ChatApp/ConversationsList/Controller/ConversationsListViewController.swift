@@ -16,9 +16,11 @@ enum Sections: Int, CaseIterable {
 class ConversationsListViewController: UIViewController {
         
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var profileBarButton: UIBarButtonItem!
     
     private let cellIdentifier = String(describing: ConversationsListCell.self)
     private let cellNibName = String(describing: ConversationsListCell.self)
+    private let profileStoryboardName = "ProfileView"
     
     private let conversationsListCellDataManager = ConversationsListCellDataManager()
     private var configuration: ConversationListCellModel!
@@ -31,15 +33,26 @@ class ConversationsListViewController: UIViewController {
     private let onlineSectionName = "Online"
     private let historySectionName = "History"
     
-
+    private let profileBarButtonTitle = "Profile"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileBarButton.title = profileBarButtonTitle
 
         setupTableView()
         registerNibs()
         obtainData()
     }
+        
+    @IBAction func profileBarButtonTapped(_ sender: Any) {
+        
+        let storyboard = UIStoryboard(name: profileStoryboardName, bundle: nil)
+        guard let profileVC = storyboard.instantiateInitialViewController() else { return }
 
+        present(profileVC, animated: true, completion: nil)
+    }
+    
     /// Setup TableView.
     private func setupTableView() {
         tableView.delegate = self

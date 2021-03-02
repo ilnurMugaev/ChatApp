@@ -15,7 +15,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet private weak var nameTextView: UITextView!
     @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var editButton: UIButton!
-        
+    @IBOutlet private weak var exitButton: UIButton!
+    
     private let logging = Logging.shared
     
     private let userName = "Ilnur Mugaev"
@@ -31,8 +32,8 @@ class ProfileViewController: UIViewController {
     private let actionSheetTitle = "Choose your profile photo"
     private let cameraTitle = "Camera"
     private let photoTitle = "Photo"
-    private let cancelTitle = "Cancel"
-    
+    private let cancelTitle = "Cancel"    
+        
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         logging.printLog()
@@ -135,6 +136,10 @@ class ProfileViewController: UIViewController {
         actionSheet.pruneNegativeWidthConstraints()
         
         present(actionSheet, animated: true, completion: nil)
+    }
+        
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
