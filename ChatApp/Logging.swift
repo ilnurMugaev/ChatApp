@@ -19,13 +19,21 @@ final class Logging {
     private var previousState = "NOT RUNNING"
     
     /// Current application state.
-    private var currentState = ""    
+    private var currentState = ""
+    
+    /// Default property value.
+    private var property = ""
 
     private init() {}
     
+    private init(property: String) {
+        self.property = property
+    }
+    
     /// Print logs to the console:
     /// - Parameter function: function name.
-    func printLog(function: String = #function) {
+    /// - Parameter property: property.
+    func printLog(function: String = #function, property: String = "") {
         
         guard loggingEnabled else { return }
         
@@ -40,10 +48,12 @@ final class Logging {
             break
         }
         
+        let propertyValue = property == "" ? "" : "; property: \(property)"
+        
         if currentState != previousState {
-            print("Application moved from \(previousState) to \(currentState): \(function)")
+            print("Application moved from \(previousState) to \(currentState): \(function)" + propertyValue)
         } else {
-            print("Application state is \(currentState): \(function)")
+            print("Application state is \(currentState): \(function)" + propertyValue)
         }
                 
         previousState = currentState
