@@ -21,7 +21,7 @@ class ProfileViewController: UIViewController {
     
     private let userName = "Ilnur Mugaev"
     private let userDescription = "iOS Developer\nKazan"
-        
+    
     private lazy var userInitials: String = {
         let nameComponents = userName.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " ")
         let userInitials = nameComponents.reduce("") { ($0 == "" ? "" : "\($0.first ?? Character(" "))") + "\($1.first ?? Character(" "))" }
@@ -37,6 +37,9 @@ class ProfileViewController: UIViewController {
     private let errorAlertTitle = "Error"
     private let errorAlertMessage = "Camera is not available"
     private let okTitle = "OK"
+    
+    private let maxNumberOfLineForName = 2
+    private let maxNumberOfLineForDescription = 3
         
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -52,6 +55,12 @@ class ProfileViewController: UIViewController {
         
         logging.printLog()
         logging.printLog(property: "editButton.frame: \(editButton.frame)")
+        
+        nameTextView.textContainer.maximumNumberOfLines = maxNumberOfLineForName
+        nameTextView.textContainer.lineBreakMode = .byTruncatingTail
+        
+        descriptionTextView.textContainer.maximumNumberOfLines = maxNumberOfLineForDescription
+        descriptionTextView.textContainer.lineBreakMode = .byTruncatingTail
         
         nameTextView.text = userName
         descriptionTextView.text = userDescription
@@ -99,6 +108,10 @@ class ProfileViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         logging.printLog()
+    }
+        
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Setup gesters -
@@ -158,10 +171,6 @@ class ProfileViewController: UIViewController {
         actionSheet.pruneNegativeWidthConstraints()
         
         present(actionSheet, animated: true, completion: nil)
-    }
-        
-    @IBAction func exitButtonTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
     }
 }
 
