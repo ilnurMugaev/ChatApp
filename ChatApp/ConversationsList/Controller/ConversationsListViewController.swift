@@ -15,12 +15,13 @@ enum Sections: Int, CaseIterable {
 
 class ConversationsListViewController: UIViewController {
         
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var profileBarButton: UIBarButtonItem!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var profileBarButton: UIBarButtonItem!
     
     private let cellIdentifier = String(describing: ConversationsListCell.self)
     private let cellNibName = String(describing: ConversationsListCell.self)
     private let profileStoryboardName = "ProfileView"
+    private let conversationViewStoryboardName = "ConversationView"
     
     private let conversationsListCellDataManager = ConversationsListCellDataManager()
     private var configuration: ConversationListCellModel!
@@ -39,6 +40,7 @@ class ConversationsListViewController: UIViewController {
         super.viewDidLoad()
         
         profileBarButton.title = profileBarButtonTitle
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         setupTableView()
         registerNibs()
@@ -124,6 +126,23 @@ extension ConversationsListViewController: UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return headerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let section = Sections(rawValue: indexPath.section) else { return }
+        
+        let storyboard = UIStoryboard(name: conversationViewStoryboardName, bundle: nil)
+        guard let conversationVC = storyboard.instantiateInitialViewController() as? ConversationViewController else { return }
+        
+        switch section {
+        case .online:
+            conversationVC.conversationName = onlineConversations[indexPath.row].name
+        case .history:
+            conversationVC.conversationName = historyConversations[indexPath.row].name
+        }
+        
+        navigationController?.pushViewController(conversationVC, animated: true)
     }
     
 }
