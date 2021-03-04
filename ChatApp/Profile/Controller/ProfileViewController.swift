@@ -32,7 +32,11 @@ class ProfileViewController: UIViewController {
     private let actionSheetTitle = "Choose your profile photo"
     private let cameraTitle = "Camera"
     private let photoTitle = "Photo"
-    private let cancelTitle = "Cancel"    
+    private let cancelTitle = "Cancel"
+    
+    private let errorAlertTitle = "Error"
+    private let errorAlertMessage = "Camera is not available"
+    private let okTitle = "OK"
         
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -115,15 +119,33 @@ class ProfileViewController: UIViewController {
                                             message: nil,
                                             preferredStyle: .actionSheet)
         
-        let camera = UIAlertAction(title: cameraTitle, style: .default) { _ in
-            self.chooseImagePicker(source: .camera)
+        let camera = UIAlertAction(title: cameraTitle, style: .default) { [weak self] _ in
+            
+            guard let strongSelf = self else { return }
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                
+                strongSelf.chooseImagePicker(source: .camera)
+            } else {
+                let errorAlert = UIAlertController(title: strongSelf.errorAlertTitle,
+                                                   message: strongSelf.errorAlertMessage,
+                                                   preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: strongSelf.okTitle,
+                                             style: .cancel)
+                
+                errorAlert.addAction(okAction)
+                strongSelf.present(errorAlert, animated: true, completion: nil)
+            }
         }
+        
         camera.setValue(cameraIcon, forKey: "image")
         camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
         let photo = UIAlertAction(title: photoTitle, style: .default) { _ in
             self.chooseImagePicker(source: .photoLibrary)
         }
+        
         photo.setValue(photoIcon, forKey: "image")
         photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
