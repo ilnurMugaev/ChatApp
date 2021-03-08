@@ -15,12 +15,13 @@ class ProfileViewController: UIViewController {
     @IBOutlet private weak var nameTextView: UITextView!
     @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var editButton: UIButton!
-        
+    @IBOutlet private weak var exitButton: UIButton!
+    
     private let logging = Logging.shared
     
     private let userName = "Ilnur Mugaev"
     private let userDescription = "iOS Developer\nKazan"
-        
+    
     private lazy var userInitials: String = {
         let nameComponents = userName.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " ")
         let userInitials = nameComponents.reduce("") { ($0 == "" ? "" : "\($0.first ?? Character(" "))") + "\($1.first ?? Character(" "))" }
@@ -33,6 +34,13 @@ class ProfileViewController: UIViewController {
     private let photoTitle = "Photo"
     private let cancelTitle = "Cancel"
     
+    private let errorAlertTitle = "Error"
+    private let errorAlertMessage = "Camera is not available"
+    private let okTitle = "OK"
+    
+    private let maxNumberOfLineForName = 2
+    private let maxNumberOfLineForDescription = 3
+        
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         logging.printLog()
@@ -47,6 +55,12 @@ class ProfileViewController: UIViewController {
         
         logging.printLog()
         logging.printLog(property: "editButton.frame: \(editButton.frame)")
+        
+        nameTextView.textContainer.maximumNumberOfLines = maxNumberOfLineForName
+        nameTextView.textContainer.lineBreakMode = .byTruncatingTail
+        
+        descriptionTextView.textContainer.maximumNumberOfLines = maxNumberOfLineForDescription
+        descriptionTextView.textContainer.lineBreakMode = .byTruncatingTail
         
         nameTextView.text = userName
         descriptionTextView.text = userDescription
@@ -95,6 +109,10 @@ class ProfileViewController: UIViewController {
         super.viewDidDisappear(animated)
         logging.printLog()
     }
+        
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     // MARK: - Setup gesters -
     
@@ -114,15 +132,33 @@ class ProfileViewController: UIViewController {
                                             message: nil,
                                             preferredStyle: .actionSheet)
         
-        let camera = UIAlertAction(title: cameraTitle, style: .default) { _ in
-            self.chooseImagePicker(source: .camera)
+        let camera = UIAlertAction(title: cameraTitle, style: .default) { [weak self] _ in
+            
+            guard let strongSelf = self else { return }
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                
+                strongSelf.chooseImagePicker(source: .camera)
+            } else {
+                let errorAlert = UIAlertController(title: strongSelf.errorAlertTitle,
+                                                   message: strongSelf.errorAlertMessage,
+                                                   preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: strongSelf.okTitle,
+                                             style: .cancel)
+                
+                errorAlert.addAction(okAction)
+                strongSelf.present(errorAlert, animated: true, completion: nil)
+            }
         }
+        
         camera.setValue(cameraIcon, forKey: "image")
         camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
         let photo = UIAlertAction(title: photoTitle, style: .default) { _ in
             self.chooseImagePicker(source: .photoLibrary)
         }
+        
         photo.setValue(photoIcon, forKey: "image")
         photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         

@@ -12,7 +12,7 @@
         <!--Profile View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ProfileViewController" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileVC" id="BYZ-38-t0r" customClass="ProfileViewController" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -63,13 +63,26 @@ Kazan</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Edit"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgY-ZV-0GV">
+                                <rect key="frame" x="329" y="16" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bgY-ZV-0GV" secondAttribute="height" multiplier="1:1" id="BpT-6g-Arn"/>
+                                    <constraint firstAttribute="height" constant="30" id="T97-hl-fke"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="exit"/>
+                                <connections>
+                                    <action selector="exitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xzR-KC-iDS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Xi7-j1-jNb" firstAttribute="top" secondItem="rH2-jp-6P7" secondAttribute="bottom" constant="16" id="3ib-bh-1p4"/>
+                            <constraint firstItem="bgY-ZV-0GV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jOB-jS-gqp" secondAttribute="trailing" constant="8" symbolic="YES" id="6Wb-yR-w62"/>
                             <constraint firstItem="Xi7-j1-jNb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="6v5-7o-dLO"/>
                             <constraint firstItem="57Q-6Y-F1H" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="56" id="ASH-RL-qk7"/>
+                            <constraint firstItem="bgY-ZV-0GV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="FrM-jN-R9Z"/>
                             <constraint firstItem="jOB-jS-gqp" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="1:3" priority="999" id="HxZ-dr-h8r"/>
                             <constraint firstItem="yHm-ot-Han" firstAttribute="centerX" secondItem="jOB-jS-gqp" secondAttribute="centerX" id="JRp-bP-6zW"/>
                             <constraint firstItem="rH2-jp-6P7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Kb9-A0-Co8"/>
@@ -82,6 +95,7 @@ Kazan</string>
                             <constraint firstItem="Xi7-j1-jNb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="W63-pl-of5"/>
                             <constraint firstItem="jOB-jS-gqp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YzC-eE-KIL"/>
                             <constraint firstItem="57Q-6Y-F1H" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Xi7-j1-jNb" secondAttribute="bottom" constant="20" id="ZR0-D1-7Hv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bgY-ZV-0GV" secondAttribute="trailing" constant="16" id="d6b-0J-OFr"/>
                             <constraint firstItem="rH2-jp-6P7" firstAttribute="top" secondItem="jOB-jS-gqp" secondAttribute="bottom" constant="32" id="fwk-tN-iHY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="57Q-6Y-F1H" secondAttribute="bottom" constant="30" id="jLr-Q3-Zn0"/>
                             <constraint firstItem="57Q-6Y-F1H" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nQ0-cC-gqR"/>
@@ -93,6 +107,7 @@ Kazan</string>
                         <outlet property="avatarImageView" destination="jOB-jS-gqp" id="xgl-iI-Oj7"/>
                         <outlet property="descriptionTextView" destination="Xi7-j1-jNb" id="9k9-st-BRD"/>
                         <outlet property="editButton" destination="57Q-6Y-F1H" id="c7s-iM-vpI"/>
+                        <outlet property="exitButton" destination="bgY-ZV-0GV" id="Dli-za-1h3"/>
                         <outlet property="initialsLabel" destination="yHm-ot-Han" id="eab-wa-WT5"/>
                         <outlet property="nameTextView" destination="rH2-jp-6P7" id="Dh9-i1-jYa"/>
                     </connections>
@@ -103,6 +118,7 @@ Kazan</string>
         </scene>
     </scenes>
     <resources>
+        <image name="exit" width="100" height="100"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
