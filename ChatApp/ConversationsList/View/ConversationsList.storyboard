@@ -32,6 +32,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tinkoff Chat" id="ESY-7e-YPn">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="settings" id="kO8-5n-mdt">
+                            <connections>
+                                <action selector="settingsBarButtonTapped:" destination="KwI-hi-gjJ" id="Roi-ai-0Sq"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" id="RFu-eO-1iV">
                             <connections>
                                 <action selector="profileBarButtonTapped:" destination="KwI-hi-gjJ" id="kEh-Av-Qc4"/>
@@ -40,6 +45,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="profileBarButton" destination="RFu-eO-1iV" id="ea2-yT-JeQ"/>
+                        <outlet property="settingsBarButton" destination="kO8-5n-mdt" id="zqr-bW-h9f"/>
                         <outlet property="tableView" destination="WzQ-Ko-HHk" id="lDi-7V-7Dk"/>
                     </connections>
                 </viewController>
@@ -67,6 +73,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="settings" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

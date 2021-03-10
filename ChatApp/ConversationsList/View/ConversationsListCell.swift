@@ -32,7 +32,7 @@ class ConversationsListCell: UITableViewCell {
         avatarImageView.layer.cornerRadius = cornerRadius
         avatarImageView.clipsToBounds = true
     }
-    
+        
     /// Fills cell fields with information from the received model:
     /// - Parameter model: Received model for the cell.
     func configure(with model: ConversationListCellModel) {
@@ -57,7 +57,17 @@ class ConversationsListCell: UITableViewCell {
             messageLabel.text = noMessageText
             messageLabel.font = italicFont
         }
-                
-        contentView.backgroundColor = model.isOnline ? #colorLiteral(red: 1, green: 0.9803921569, blue: 0.8039215686, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    }
+    
+    func setupAppearance(with model: ConversationListCellModel, theme: Theme) {
+        if model.isOnline {
+            contentView.backgroundColor = theme.colors.onlineConversationColor
+        } else {
+            contentView.backgroundColor = theme.colors.backgroundColor
+        }
+        
+        nameLabel.textColor = theme.colors.mainFontColor
+        dateLabel.textColor = theme.colors.utilityFontColor
+        messageLabel.textColor = theme.colors.utilityFontColor
     }
 }

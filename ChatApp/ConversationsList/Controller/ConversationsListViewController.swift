@@ -13,15 +13,19 @@ enum Sections: Int, CaseIterable {
     case history
 }
 
-class ConversationsListViewController: UIViewController {
+class ConversationsListViewController: UIViewController, ThemesPickerDelegate {
         
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var profileBarButton: UIBarButtonItem!
+    @IBOutlet private weak var settingsBarButton: UIBarButtonItem!
     
     private let cellIdentifier = String(describing: ConversationsListCell.self)
     private let cellNibName = String(describing: ConversationsListCell.self)
     private let profileStoryboardName = "ProfileView"
     private let conversationViewStoryboardName = "ConversationView"
+    
+    private let settingsStoryboardName = "Themes"
+    private let settingsStoryboardId = "themesVC"
     
     private let conversationsListCellDataManager = ConversationsListCellDataManager()
     private var configuration: ConversationListCellModel!
@@ -36,6 +40,13 @@ class ConversationsListViewController: UIViewController {
     
     private let profileBarButtonTitle = "Profile"
     
+    private var updateAppearanceClosure: ((Theme) -> ())? = nil
+    var currentTheme = ThemesManager.currentTheme {
+        didSet {
+            updateAppearance(theme: currentTheme)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,6 +56,11 @@ class ConversationsListViewController: UIViewController {
         setupTableView()
         registerNibs()
         obtainData()
+        
+        self.updateAppearanceClosure = { [weak self] theme in
+            guard let strongSelf = self else { return }
+            strongSelf.currentTheme = theme
+        }        
     }
         
     @IBAction func profileBarButtonTapped(_ sender: Any) {
@@ -53,6 +69,23 @@ class ConversationsListViewController: UIViewController {
         guard let profileVC = storyboard.instantiateInitialViewController() else { return }
 
         present(profileVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func settingsBarButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: settingsStoryboardName, bundle: nil)
+        guard let themesVC = storyboard.instantiateViewController(withIdentifier: settingsStoryboardId) as? ThemesViewController else { return }
+        
+        themesVC.delegate = self
+        if let closure = updateAppearanceClosure {
+            themesVC.setThemeClosure = closure
+        }
+        navigationController?.pushViewController(themesVC, animated: true)
+    }
+    
+    func updateAppearance(theme: Theme) {
+        ThemesManager.applyTheme(theme: theme)
+        ThemesManager.updateWindows()
+        tableView.reloadData()
     }
     
     /// Setup TableView.
@@ -109,6 +142,7 @@ extension ConversationsListViewController: UITableViewDataSource, UITableViewDel
         }
         
         cell.configure(with: model)
+        cell.setupAppearance(with: model, theme: currentTheme)
                 
         return cell
     }
@@ -143,6 +177,6 @@ extension ConversationsListViewController: UITableViewDataSource, UITableViewDel
         }
         
         navigationController?.pushViewController(conversationVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    
 }

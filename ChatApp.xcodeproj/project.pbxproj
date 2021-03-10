@@ -19,6 +19,11 @@
 		BF7C432C25EAE64500581B04 /* ConversationsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF7C432B25EAE64500581B04 /* ConversationsList.storyboard */; };
 		BF7C433325EAE80100581B04 /* ConversationsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7C433125EAE80100581B04 /* ConversationsListCell.swift */; };
 		BF7C433425EAE80100581B04 /* ConversationsListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF7C433225EAE80100581B04 /* ConversationsListCell.xib */; };
+		BF7D175525F941E100012E0E /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7D175425F941E100012E0E /* ThemesViewController.swift */; };
+		BF7D175A25F9424800012E0E /* Themes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF7D175925F9424800012E0E /* Themes.storyboard */; };
+		BF7D175D25F9429B00012E0E /* ThemesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7D175C25F9429B00012E0E /* ThemesManager.swift */; };
+		BF7D176025F942EA00012E0E /* ColorsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7D175F25F942EA00012E0E /* ColorsModel.swift */; };
+		BF7D176325F9435E00012E0E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7D176225F9435E00012E0E /* Constants.swift */; };
 		BFB4BD8A25F0C9E9003166C6 /* ConversationViewCellDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4BD8925F0C9E9003166C6 /* ConversationViewCellDataManager.swift */; };
 		BFD99E8B25F0198200946323 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD99E8A25F0198200946323 /* ConversationViewController.swift */; };
 		BFD99E9025F01B6D00946323 /* ConversationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD99E8E25F01B6D00946323 /* ConversationViewCell.swift */; };
@@ -42,6 +47,11 @@
 		BF7C432B25EAE64500581B04 /* ConversationsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ConversationsList.storyboard; sourceTree = "<group>"; };
 		BF7C433125EAE80100581B04 /* ConversationsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListCell.swift; sourceTree = "<group>"; };
 		BF7C433225EAE80100581B04 /* ConversationsListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsListCell.xib; sourceTree = "<group>"; };
+		BF7D175425F941E100012E0E /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
+		BF7D175925F9424800012E0E /* Themes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Themes.storyboard; sourceTree = "<group>"; };
+		BF7D175C25F9429B00012E0E /* ThemesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesManager.swift; sourceTree = "<group>"; };
+		BF7D175F25F942EA00012E0E /* ColorsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsModel.swift; sourceTree = "<group>"; };
+		BF7D176225F9435E00012E0E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BFB4BD8925F0C9E9003166C6 /* ConversationViewCellDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewCellDataManager.swift; sourceTree = "<group>"; };
 		BFD99E8A25F0198200946323 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		BFD99E8E25F01B6D00946323 /* ConversationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewCell.swift; sourceTree = "<group>"; };
@@ -85,6 +95,7 @@
 				BFD99E8525F018AD00946323 /* Profile */,
 				BF7C432E25EAE65500581B04 /* ConversationsList */,
 				BFD99E8D25F019A700946323 /* Conversation */,
+				BF7D175725F941FF00012E0E /* Themes */,
 				BF08FAD525D8830E00D33DEF /* Assets.xcassets */,
 				BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */,
 				BF08FADA25D8830E00D33DEF /* Info.plist */,
@@ -119,6 +130,18 @@
 				BF7C433225EAE80100581B04 /* ConversationsListCell.xib */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BF7D175725F941FF00012E0E /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				BF7D175425F941E100012E0E /* ThemesViewController.swift */,
+				BF7D175C25F9429B00012E0E /* ThemesManager.swift */,
+				BF7D175F25F942EA00012E0E /* ColorsModel.swift */,
+				BF7D176225F9435E00012E0E /* Constants.swift */,
+				BF7D175925F9424800012E0E /* Themes.storyboard */,
+			);
+			path = Themes;
 			sourceTree = "<group>";
 		};
 		BFD99E8525F018AD00946323 /* Profile */ = {
@@ -255,6 +278,7 @@
 				BF7C433425EAE80100581B04 /* ConversationsListCell.xib in Resources */,
 				BFD99E9125F01B6D00946323 /* ConversationViewCell.xib in Resources */,
 				BF08FAD625D8830E00D33DEF /* Assets.xcassets in Resources */,
+				BF7D175A25F9424800012E0E /* Themes.storyboard in Resources */,
 				BF08FAD425D8830D00D33DEF /* ProfileView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,13 +293,17 @@
 				BF7C433325EAE80100581B04 /* ConversationsListCell.swift in Sources */,
 				BF08FAD125D8830D00D33DEF /* ProfileViewController.swift in Sources */,
 				BFD99E8B25F0198200946323 /* ConversationViewController.swift in Sources */,
+				BF7D176025F942EA00012E0E /* ColorsModel.swift in Sources */,
 				BFD99E9025F01B6D00946323 /* ConversationViewCell.swift in Sources */,
+				BF7D176325F9435E00012E0E /* Constants.swift in Sources */,
 				BF6E706325EAF79C0067C156 /* ConversationsListModel.swift in Sources */,
 				BF7C432925EAE61600581B04 /* ConversationsListViewController.swift in Sources */,
+				BF7D175D25F9429B00012E0E /* ThemesManager.swift in Sources */,
 				BFB4BD8A25F0C9E9003166C6 /* ConversationViewCellDataManager.swift in Sources */,
 				BF686AF225EB8C9700E0500C /* ConversationsListCellDataManager.swift in Sources */,
 				BF08FACD25D8830D00D33DEF /* AppDelegate.swift in Sources */,
 				BF08FAE325D8849800D33DEF /* Logging.swift in Sources */,
+				BF7D175525F941E100012E0E /* ThemesViewController.swift in Sources */,
 				BFD99E9525F01E7600946323 /* ConversationViewCellModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

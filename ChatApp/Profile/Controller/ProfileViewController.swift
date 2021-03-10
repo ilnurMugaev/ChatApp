@@ -40,6 +40,8 @@ class ProfileViewController: UIViewController {
     
     private let maxNumberOfLineForName = 2
     private let maxNumberOfLineForDescription = 3
+    
+    var currentTheme = ThemesManager.currentTheme
         
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -93,9 +95,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         logging.printLog()
         
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-        let initialsFonSize = avatarImageView.bounds.height / 2
-        initialsLabel.font = UIFont.systemFont(ofSize: initialsFonSize)
+        setupLayouts()
     }
         
     // Сработает перед тем, как view закроется.
@@ -112,6 +112,18 @@ class ProfileViewController: UIViewController {
         
     @IBAction func exitButtonTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func setupLayouts() {
+        
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+        let initialsFonSize = avatarImageView.bounds.height / 2
+        initialsLabel.font = UIFont.systemFont(ofSize: initialsFonSize)
+                
+        view.backgroundColor = currentTheme.colors.backgroundColor
+        nameTextView.textColor = currentTheme.colors.mainFontColor
+        descriptionTextView.textColor = currentTheme.colors.mainFontColor
+        editButton.backgroundColor = currentTheme.colors.UIElementColor
     }
     
     // MARK: - Setup gesters -
