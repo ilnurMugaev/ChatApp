@@ -14,11 +14,11 @@ enum Theme: Int, CaseIterable {
     var colors: ColorsModel {
         switch self {
         case .classic:
-            return Constants.classicTheme
+            return ColorsDataManager.classicTheme
         case .day:
-            return Constants.dayTheme
+            return ColorsDataManager.dayTheme
         case .night:
-            return Constants.nightTheme
+            return ColorsDataManager.nightTheme
         }
     }
 }

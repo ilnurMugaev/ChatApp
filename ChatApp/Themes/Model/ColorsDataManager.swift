@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  ColorsDataManager.swift
 //  ChatApp
 //
 //  Created by Ilnur Mugaev on 10.03.2021.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Constants {
+struct ColorsDataManager {
     
     static let classicTheme = ColorsModel(backgroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0),
                                           onlineConversationColor: #colorLiteral(red: 1, green: 0.9882352941, blue: 0.8588235294, alpha: 1),

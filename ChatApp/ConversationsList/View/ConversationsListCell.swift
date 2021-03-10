@@ -59,6 +59,10 @@ class ConversationsListCell: UITableViewCell {
         }
     }
     
+    /// Fills UI elements with color depending on the theme:
+    /// - Parameters:
+    ///   - model: ConversationListCellModel.
+    ///   - theme: Theme.
     func setupAppearance(with model: ConversationListCellModel, theme: Theme) {
         if model.isOnline {
             contentView.backgroundColor = theme.colors.onlineConversationColor

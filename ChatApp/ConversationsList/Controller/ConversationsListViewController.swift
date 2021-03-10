@@ -82,6 +82,8 @@ class ConversationsListViewController: UIViewController, ThemesPickerDelegate {
         navigationController?.pushViewController(themesVC, animated: true)
     }
     
+    /// Update appearance:
+    /// - Parameter theme: theme.
     func updateAppearance(theme: Theme) {
         ThemesManager.applyTheme(theme: theme)
         ThemesManager.updateWindows()
