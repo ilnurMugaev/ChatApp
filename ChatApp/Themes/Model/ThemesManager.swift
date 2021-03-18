@@ -26,20 +26,27 @@ enum Theme: Int, CaseIterable {
 let themeKey = "selectedTheme"
 
 struct ThemesManager {
-    static var currentTheme = selectedTheme()
     
-    static func selectedTheme() -> Theme {
-        if let storedTheme = UserDefaults.standard.value(forKey: themeKey) as? Int {
-            guard let theme = Theme(rawValue: storedTheme) else { return .classic}
-            return theme
-        } else {
-            return .classic
+    static var currentTheme = Theme.classic
+    
+    static func loadTheme() {
+        GCDDataManager().loadTheme { (theme) in
+            if let storedTheme = theme {
+                self.currentTheme = storedTheme
+            } else {
+                self.currentTheme = .classic
+            }
+            
+            DispatchQueue.main.async {
+                applyTheme(theme: currentTheme)
+                updateWindows()
+            }
         }
     }
     
     static func saveTheme(theme: Theme) {
-        UserDefaults.standard.set(theme.rawValue, forKey: themeKey)
-        UserDefaults.standard.synchronize()
+        let themeNo = String(theme.rawValue)
+        GCDDataManager().saveTheme(themeNo: themeNo)
         currentTheme = theme
     }
     

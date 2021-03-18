@@ -21,7 +21,7 @@ class ConversationsListViewController: UIViewController, ThemesPickerDelegate {
     
     private let cellIdentifier = String(describing: ConversationsListCell.self)
     private let cellNibName = String(describing: ConversationsListCell.self)
-    private let profileStoryboardName = "ProfileView"
+    private let profileStoryboardName = "Profile"
     private let conversationViewStoryboardName = "ConversationView"
     
     private let settingsStoryboardName = "Themes"
@@ -47,6 +47,9 @@ class ConversationsListViewController: UIViewController, ThemesPickerDelegate {
         }
     }
     
+    var user = User()
+    var saveDataManager: SaveDataManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,14 +63,30 @@ class ConversationsListViewController: UIViewController, ThemesPickerDelegate {
         self.updateAppearanceClosure = { [weak self] theme in
             guard let strongSelf = self else { return }
             strongSelf.currentTheme = theme
-        }        
+        }
+        
+        //загрузка данных через GCD
+        saveDataManager = GCDDataManager()
+                
+        //загрузка данных через Operation
+//        saveDataManager = OperationDataManager()
+        
+        saveDataManager.loadData { (name, _, photo) in
+            DispatchQueue.main.async {
+                self.user.name = name ?? "No name"
+                self.user.photo = photo
+            }
+        }
+        
+        currentTheme = ThemesManager.currentTheme
+
     }
         
     @IBAction func profileBarButtonTapped(_ sender: Any) {
         
         let storyboard = UIStoryboard(name: profileStoryboardName, bundle: nil)
         guard let profileVC = storyboard.instantiateInitialViewController() else { return }
-
+        
         present(profileVC, animated: true, completion: nil)
     }
     
