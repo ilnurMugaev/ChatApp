@@ -20,6 +20,8 @@ class ConversationViewController: UIViewController {
     private let estimatedRowHeight: CGFloat = 21
     private let conversationViewCellDataManager = ConversationViewCellDataManager()
     private var messages: [ConversationViewCellModel] = []
+    
+    var currentTheme = ThemesManager.currentTheme
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,12 @@ class ConversationViewController: UIViewController {
         setupTableView()
         registerNibs()
         obtainData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        currentTheme = ThemesManager.currentTheme
     }
         
     /// Setup TableView.

@@ -20,7 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Приложение полностью загрузилось.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         logging.loggingEnabled = loggingEnabled
-        logging.printLog()        
+        logging.printLog()
+        ThemesManager.applyTheme(theme: ThemesManager.currentTheme)
         return true
     }
     
@@ -48,5 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         logging.printLog()
     }
+    
+    func changeStatusBar(theme: Theme) {
+        if #available(iOS 13.0, *) {
+            window?.overrideUserInterfaceStyle = theme.colors.userInterfaceStyle
+        }
+    }
 }
-

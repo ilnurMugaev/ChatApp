@@ -26,16 +26,23 @@ class ConversationViewCell: UITableViewCell {
     /// - Parameter model: Received model for the cell.
     func configure(with model: ConversationViewCellModel) {
         
+        let currentTheme = ThemesManager.currentTheme
+        contentView.backgroundColor = currentTheme.colors.backgroundColor
+        
         messageLabel.text = model.text
         
-        if (model.isIncomingMessage) {
-            messageView.backgroundColor = #colorLiteral(red: 0.8745098039, green: 0.8745098039, blue: 0.8745098039, alpha: 1)
-            messageLabel.backgroundColor = #colorLiteral(red: 0.8745098039, green: 0.8745098039, blue: 0.8745098039, alpha: 1)
+        if model.isIncomingMessage {
+            messageView.backgroundColor = currentTheme.colors.incomingMessageViewColor
+            messageLabel.backgroundColor = currentTheme.colors.incomingMessageViewColor
+            messageLabel.textColor = currentTheme.colors.incomingMessageFontColor
+            
             leftConstraint.isActive = true
             rightConstraint.isActive = false
         } else {
-            messageView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.968627451, blue: 0.7725490196, alpha: 1)
-            messageLabel.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.968627451, blue: 0.7725490196, alpha: 1)
+            messageView.backgroundColor = currentTheme.colors.outgoingMessageViewColor
+            messageLabel.backgroundColor = currentTheme.colors.outgoingMessageViewColor
+            messageLabel.textColor = currentTheme.colors.outgoingMessageFontColor
+            
             leftConstraint.isActive = false
             rightConstraint.isActive = true
         }
