@@ -11,22 +11,21 @@ import UIKit
 enum Theme: Int, CaseIterable {
     case classic, day, night
     
-    var colors: ColorsModel {
+    var colors: Colors {
         switch self {
         case .classic:
-            return ColorsDataManager.classicTheme
+            return Constants.classicTheme
         case .day:
-            return ColorsDataManager.dayTheme
+            return Constants.dayTheme
         case .night:
-            return ColorsDataManager.nightTheme
+            return Constants.nightTheme
         }
     }
 }
 
 let themeKey = "selectedTheme"
 
-struct ThemesManager {
-    
+struct ThemeManager {
     static var currentTheme = Theme.classic
     
     static func loadTheme() {
@@ -57,8 +56,8 @@ struct ThemesManager {
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
             appearance.backgroundColor = theme.colors.UIElementColor
-            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.colors.mainFontColor]
-            appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.colors.mainFontColor]
+            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.colors.baseFontColor]
+            appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.colors.baseFontColor]
             
             proxyNavigationBar.standardAppearance = appearance
             proxyNavigationBar.scrollEdgeAppearance = appearance
@@ -68,8 +67,8 @@ struct ThemesManager {
             }
         } else {
             proxyNavigationBar.barTintColor = theme.colors.UIElementColor
-            proxyNavigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.colors.mainFontColor]
-            proxyNavigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.colors.mainFontColor]
+            proxyNavigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.colors.baseFontColor]
+            proxyNavigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.colors.baseFontColor]
             proxyNavigationBar.barStyle = theme.colors.barStyle
         }
         

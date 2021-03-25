@@ -21,7 +21,7 @@ class LoadOperation: Operation {
         if isCancelled {
             return
         }
-        
+
         //добавил sleep для наглядности ожидания
         sleep(2)
         
@@ -50,7 +50,7 @@ class LoadOperation: Operation {
         do {
             let photoData = try Data(contentsOf: directory.appendingPathComponent(self.photoFilename))
             self.userPhoto = UIImage(data: photoData)
-        }  catch {
+        } catch {
             print(error.localizedDescription)
         }
     }

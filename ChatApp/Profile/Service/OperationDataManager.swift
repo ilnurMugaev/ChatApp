@@ -9,7 +9,7 @@
 import UIKit
 
 class OperationDataManager: SaveDataManager {
-    func saveData(name: String?, description: String?, photo: UIImage?, completion: @escaping ([String:Bool], [String]) -> ()) {
+    func saveData(name: String?, description: String?, photo: UIImage?, completion: @escaping ([String: Bool], [String]) -> Void) {
         print("saving with Operation")
         let saveOperation = SaveOperation(name: name, description: description, photo: photo)
         
@@ -21,7 +21,7 @@ class OperationDataManager: SaveDataManager {
         OperationQueue().addOperation(saveOperation)
     }
     
-    func loadData(completion: @escaping (String?, String?, UIImage?) -> ()) {
+    func loadData(completion: @escaping (String?, String?, UIImage?) -> Void) {
         print("loading with Operation")
         let loadOperation = LoadOperation()
         
