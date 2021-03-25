@@ -8,219 +8,386 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
-        
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var initialsLabel: UILabel!
-    @IBOutlet private weak var nameTextView: UITextView!
-    @IBOutlet private weak var descriptionTextView: UITextView!
-    @IBOutlet private weak var editButton: UIButton!
-    @IBOutlet private weak var exitButton: UIButton!
+class ProfileViewController: UIViewController, AlertPresentable {
     
-    private let logging = Logging.shared
+    @IBOutlet var backgroundView: UIView!
+    @IBOutlet var editBarButton: UIBarButtonItem!
+    @IBOutlet var closeBarButton: UIBarButtonItem!
     
-    private let userName = "Ilnur Mugaev"
-    private let userDescription = "iOS Developer\nKazan"
-    
-    private lazy var userInitials: String = {
-        let nameComponents = userName.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " ")
-        let userInitials = nameComponents.reduce("") { ($0 == "" ? "" : "\($0.first ?? Character(" "))") + "\($1.first ?? Character(" "))" }
-        return userInitials.trimmingCharacters(in: .whitespacesAndNewlines)
+    var avatarView: AvatarView = {
+        let view = AvatarView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = ColorsDataManager.userPhotoBackgrounColor
+        return view
     }()
     
-    private let buttonCornerRadius: CGFloat = 14
-    private let actionSheetTitle = "Choose your profile photo"
-    private let cameraTitle = "Camera"
-    private let photoTitle = "Photo"
-    private let cancelTitle = "Cancel"
+    var nameTextField: UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.font = UIFont.systemFont(ofSize: 26, weight: .semibold)
+        tf.textAlignment = .center
+        return tf
+    }()
     
-    private let errorAlertTitle = "Error"
-    private let errorAlertMessage = "Camera is not available"
-    private let okTitle = "OK"
+    var descriptionTextView: UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.font = UIFont.systemFont(ofSize: 16)
+        return tv
+    }()
     
-    private let maxNumberOfLineForName = 2
-    private let maxNumberOfLineForDescription = 3
+    var saveGCDButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 14
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        button.setTitle("Save GCD", for: .normal)
+        button.tag = 0
+        return button
+    }()
     
+    var saveOperationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 14
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        button.setTitle("Save Operation", for: .normal)
+        button.tag = 1
+        return button
+    }()
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 13.0, *) {
+            indicator.style = .large
+        } else {
+            indicator.style = .gray
+        }
+        return indicator
+    }()
+    
+    var imagePicker: UIImagePickerController!
+    
+    var user = User()
+    var saveDataManager: SaveDataManager!
+    var delegate: ConversationsListViewController!
+    
+    var isEditingProfile = false
+    var photoIsSame = true
+    
+    let avatarViewWidth = min(240.0, UIScreen.main.bounds.height * 0.3)
+    let fontSize = min(120.0, UIScreen.main.bounds.height * 0.15)
     var currentTheme = ThemesManager.currentTheme
-        
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        logging.printLog()
-//        logging.printLog(property: "editButton.frame: \(editButton.frame)")
-//        В этом методе получаем ошибку, т.к. элементы пользовательского интерфейса UIView и subviews еще не загружены.
-        
-    }
-        
-    // Срабатывает после загрузки view.
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        logging.printLog()
-        logging.printLog(property: "editButton.frame: \(editButton.frame)")
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
         
-        nameTextView.textContainer.maximumNumberOfLines = maxNumberOfLineForName
-        nameTextView.textContainer.lineBreakMode = .byTruncatingTail
+        navigationController?.isNavigationBarHidden = false
         
-        descriptionTextView.textContainer.maximumNumberOfLines = maxNumberOfLineForDescription
-        descriptionTextView.textContainer.lineBreakMode = .byTruncatingTail
+        setUpSelectors()
+        setUpConstraints()
+        configureUIElements()
         
-        nameTextView.text = userName
-        descriptionTextView.text = userDescription
-        initialsLabel.text = userInitials
-        editButton.layer.cornerRadius = buttonCornerRadius
+        //загрузка данных через GCD
+        saveDataManager = GCDDataManager()
         
-        setupGestures()
-    }
-    
-    // Срабатывает перед появлением view на экране.
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        logging.printLog()
-    }
+        //загрузка данных через Operation
+//        saveDataManager = OperationDataManager()
         
-    // Срабатывает после появлением view на экране.
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        logging.printLog()
-        logging.printLog(property: "editButton.frame: \(editButton.frame)")
-//        Значения editButton.frame в данном методе отличается от значений в методе viewDidLoad т.к. окончательные размеры view и subviews определяются в методе viewDidLayoutSubviews.
-    }
-    
-    // Срабатывает перед тем, как размер view изменится под размер экрана.
-    override func viewWillLayoutSubviews() {
-        logging.printLog()
-    }
-    
-    // Срабатывает после того, как размер view изменился под размер экрана.
-    override func viewDidLayoutSubviews() {
-        logging.printLog()
-        
-        setupLayouts()
-    }
-        
-    // Сработает перед тем, как view закроется.
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        logging.printLog()
-    }
-    
-    // Сработает после того, как view закрылся.
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        logging.printLog()
-    }
-        
-    @IBAction func exitButtonTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func setupLayouts() {
-        
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-        let initialsFonSize = avatarImageView.bounds.height / 2
-        initialsLabel.font = UIFont.systemFont(ofSize: initialsFonSize)
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        saveDataManager.loadData { (name, description, photo) in
+            self.user.name = name ?? "No name"
+            self.user.description = description ?? "No description"
+            self.user.photo = photo
+            
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
                 
-        view.backgroundColor = currentTheme.colors.backgroundColor
-        nameTextView.textColor = currentTheme.colors.mainFontColor
+                self.nameTextField.text = self.user.name
+                self.descriptionTextView.text = self.user.description
+                
+                self.configureAvatarView(with: self.user, fontSize: self.fontSize)
+            }
+        }
+    }
+    
+    func setUpSelectors() {
+        avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector (avatarTapped(_:))))
+        saveGCDButton.addTarget(self, action: #selector(saveButtonPressed(_:)), for: .touchUpInside)
+        saveOperationButton.addTarget(self, action: #selector(saveButtonPressed(_:)), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+    }
+    
+    func setUpConstraints() {
+        backgroundView.addSubview(avatarView)
+        backgroundView.addSubview(nameTextField)
+        backgroundView.addSubview(descriptionTextView)
+        backgroundView.addSubview(saveGCDButton)
+        backgroundView.addSubview(saveOperationButton)
+        backgroundView.addSubview(activityIndicator)
+        
+        let avatarViewConstraints = [avatarView.heightAnchor.constraint(equalToConstant: avatarViewWidth),
+                                     avatarView.widthAnchor.constraint(equalToConstant: avatarViewWidth),
+                                     avatarView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
+                                     avatarView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 7)]
+        let nameTextFieldConstraints = [nameTextField.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: 32),
+                                        nameTextField.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 30),
+                                        nameTextField.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
+                                        nameTextField.heightAnchor.constraint(equalToConstant: 30)]
+        let descriptionTextViewConstraints = [descriptionTextView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 25),
+                                              descriptionTextView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 50),
+                                              descriptionTextView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor)]
+        let saveWithGCDButtonConstraints = [saveGCDButton.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 5),
+                                            saveGCDButton.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 56),
+                                            saveGCDButton.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
+                                            saveGCDButton.heightAnchor.constraint(equalToConstant: 40)]
+        let saveWithOperationButtonConstraints =  [saveOperationButton.topAnchor.constraint(equalTo: saveGCDButton.bottomAnchor, constant: 10),
+                                                   saveOperationButton.leadingAnchor.constraint(equalTo: saveGCDButton.leadingAnchor),
+                                                   saveOperationButton.centerXAnchor.constraint(equalTo: saveGCDButton.centerXAnchor),
+                                                   saveOperationButton.heightAnchor.constraint(equalToConstant: 40),
+                                                   saveOperationButton.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -30)]
+        let activityIndicatorConstraints = [activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                                            activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)]
+        
+        NSLayoutConstraint.activate(avatarViewConstraints)
+        NSLayoutConstraint.activate(nameTextFieldConstraints)
+        NSLayoutConstraint.activate(descriptionTextViewConstraints)
+        NSLayoutConstraint.activate(saveWithGCDButtonConstraints)
+        NSLayoutConstraint.activate(saveWithOperationButtonConstraints)
+        NSLayoutConstraint.activate(activityIndicatorConstraints)
+    }
+    
+    func configureUIElements() {
+        self.backgroundView.backgroundColor = currentTheme.colors.backgroundColor
+        editBarButton.tintColor = .systemBlue
+        closeBarButton.tintColor = .systemBlue
+        
+        avatarView.isUserInteractionEnabled = true
+        avatarView.layer.cornerRadius = avatarViewWidth / 2
+        
+        nameTextField.textColor = currentTheme.colors.mainFontColor
+        nameTextField.isEnabled = false
         descriptionTextView.textColor = currentTheme.colors.mainFontColor
-        editButton.backgroundColor = currentTheme.colors.UIElementColor
+        descriptionTextView.backgroundColor = currentTheme.colors.backgroundColor
+        descriptionTextView.isEditable = false
+        
+        saveGCDButton.backgroundColor = currentTheme.colors.UIElementColor
+        saveGCDButton.setTitleColor(currentTheme.colors.utilityFontColor, for: .normal)
+        saveGCDButton.isEnabled = false
+        saveOperationButton.backgroundColor = currentTheme.colors.UIElementColor
+        saveOperationButton.setTitleColor(currentTheme.colors.utilityFontColor, for: .normal)
+        saveOperationButton.isEnabled = false
+        
+        activityIndicator.hidesWhenStopped = true
     }
     
-    // MARK: - Setup gesters -
-    
-    private func setupGestures() {
-        
-        avatarImageView.isUserInteractionEnabled = true
-        let avatarGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnImageView(_:)))
-        avatarImageView.addGestureRecognizer(avatarGesture)
+    func configureAvatarView(with user: User, fontSize: CGFloat) {
+        avatarView.layer.cornerRadius = avatarViewWidth / 2
+        avatarView.configure(image: user.photo, name: user.name, fontSize: fontSize, cornerRadius: avatarViewWidth / 2)
     }
     
-    @objc private func tappedOnImageView(_ sender: UIGestureRecognizer) {
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
         
-        let cameraIcon = #imageLiteral(resourceName: "camera")
-        let photoIcon = #imageLiteral(resourceName: "photo")
+        isEditingProfile.toggle()
         
-        let actionSheet = UIAlertController(title: actionSheetTitle,
-                                            message: nil,
-                                            preferredStyle: .actionSheet)
+        editBarButton.title = "Edit"
+        nameTextField.isEnabled = false
+        nameTextField.borderStyle = .none
         
-        let camera = UIAlertAction(title: cameraTitle, style: .default) { [weak self] _ in
-            
-            guard let strongSelf = self else { return }
-            
-            if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                
-                strongSelf.chooseImagePicker(source: .camera)
+        descriptionTextView.isEditable = false
+        descriptionTextView.layer.borderWidth = 0.0
+        
+        compareFields()
+    }
+    
+    @objc func avatarTapped(_ sender: Any) {
+        
+        let choosePhotoAction = UIAlertAction(title: "Choose photo", style: .default) { (_) in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                self.imagePicker.sourceType = .photoLibrary
+                self.present(self.imagePicker, animated: true, completion: nil)
             } else {
-                let errorAlert = UIAlertController(title: strongSelf.errorAlertTitle,
-                                                   message: strongSelf.errorAlertMessage,
-                                                   preferredStyle: .alert)
-                
-                let okAction = UIAlertAction(title: strongSelf.okTitle,
-                                             style: .cancel)
-                
-                errorAlert.addAction(okAction)
-                strongSelf.present(errorAlert, animated: true, completion: nil)
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                self.showAlert(title: "Error", message: "No access to Photo Library", preferredStyle: .alert, actions: [okAction], completion: nil)
             }
         }
         
-        camera.setValue(cameraIcon, forKey: "image")
-        camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        
-        let photo = UIAlertAction(title: photoTitle, style: .default) { _ in
-            self.chooseImagePicker(source: .photoLibrary)
+        let takePhotoAction = UIAlertAction(title: "Take photo", style: .default) { (_) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                self.imagePicker.sourceType = .camera
+                self.imagePicker.cameraDevice = .front
+                self.present(self.imagePicker, animated: true, completion: nil)
+            } else {
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                self.showAlert(title: "Error", message: "Camera is not available", preferredStyle: .alert, actions: [okAction], completion: nil)
+            }
         }
         
-        photo.setValue(photoIcon, forKey: "image")
-        photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        let cancel = UIAlertAction(title: cancelTitle, style: .cancel)
+        self.showAlert(title: "Edit photo", message: "Please choose one of the ways", preferredStyle: .actionSheet, actions: [choosePhotoAction, takePhotoAction, cancelAction], completion: nil)
+    }
+    
+    @IBAction func editBarButtonPressed(_ sender: Any) {
+        isEditingProfile.toggle()
         
-        actionSheet.addAction(camera)
-        actionSheet.addAction(photo)
-        actionSheet.addAction(cancel)
+        if isEditingProfile {
+            editBarButton.title = "Done"
+            
+            nameTextField.isEnabled = true
+            nameTextField.borderStyle = .line
+            nameTextField.layer.borderColor = currentTheme.colors.utilityFontColor.cgColor
+            
+            descriptionTextView.isEditable = true
+            descriptionTextView.layer.borderWidth = 1.0
+            descriptionTextView.layer.borderColor = currentTheme.colors.utilityFontColor.cgColor
+        } else {
+            
+            editBarButton.title = "Edit"
+            nameTextField.isEnabled = false
+            nameTextField.borderStyle = .none
+            
+            descriptionTextView.isEditable = false
+            descriptionTextView.layer.borderWidth = 0.0
+            
+            compareFields()
+        }
+    }
+    
+    @IBAction func closeBarButtonPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func compareFields() {
+        let name = nameTextField.text
+        let description = descriptionTextView.text
         
-        actionSheet.pruneNegativeWidthConstraints()
+        if (name != self.user.name) || (description != self.user.description) || (!photoIsSame) {
+            self.saveGCDButton.setTitleColor(.systemBlue, for: .normal)
+            self.saveGCDButton.isEnabled = true
+            self.saveOperationButton.setTitleColor(.systemBlue, for: .normal)
+            self.saveOperationButton.isEnabled = true
+        } else {
+            self.saveGCDButton.setTitleColor(self.currentTheme.colors.utilityFontColor, for: .normal)
+            self.saveGCDButton.isEnabled = false
+            self.saveOperationButton.setTitleColor(self.currentTheme.colors.utilityFontColor, for: .normal)
+            self.saveOperationButton.isEnabled = false
+        }
+    }
+    
+    @objc func saveButtonPressed(_ sender: Any) {
+        let tag = (sender as? UIButton)?.tag ?? 0
+        saveToFile(tag: tag)
+    }
+    
+    func saveToFile(tag: Int) {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         
-        present(actionSheet, animated: true, completion: nil)
+        self.backgroundView.isUserInteractionEnabled = false
+        self.saveGCDButton.setTitleColor(self.currentTheme.colors.utilityFontColor, for: .normal)
+        self.saveGCDButton.isEnabled = false
+        self.saveOperationButton.setTitleColor(self.currentTheme.colors.utilityFontColor, for: .normal)
+        self.saveOperationButton.isEnabled = false
+        
+        let name = (nameTextField.text == user.name) ? nil : nameTextField.text
+        let description = (descriptionTextView.text == user.description) ? nil : descriptionTextView.text
+        let photo = photoIsSame ? nil : avatarView.imageView.image
+        
+        if tag == 0 {
+            saveDataManager = GCDDataManager()
+        } else if tag == 1 {
+            saveDataManager = OperationDataManager()
+        }
+        
+        saveDataManager.saveData(name: name, description: description, photo: photo) { (savedFields, fails) in
+            self.activityIndicator.stopAnimating()
+            self.savingCompletionBlock(savedFields: savedFields, fails: fails, tag: tag)
+        }
+    }
+    
+    func savingCompletionBlock(savedFields: [String: Bool], fails: [String], tag: Int) {
+        if savedFields["name"]! {
+            self.user.name = self.nameTextField.text
+        }
+        if savedFields["description"]! {
+            self.user.description = self.descriptionTextView.text
+        }
+        if savedFields["photo"]! {
+            self.user.photo = self.avatarView.imageView.image
+            photoIsSame = true
+        }
+        
+        if fails.isEmpty {
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            self.showAlert(title: "Data saved", message: nil, preferredStyle: .alert, actions: [okAction], completion: nil)
+        } else {
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                self.saveGCDButton.setTitleColor(.systemBlue, for: .normal)
+                self.saveGCDButton.isEnabled = true
+                self.saveOperationButton.setTitleColor(.systemBlue, for: .normal)
+                self.saveOperationButton.isEnabled = true
+            }
+            let repeatAction = UIAlertAction(title: "Try again", style: .default) { _ in
+                self.saveToFile(tag: tag)
+            }
+            
+            let message = fails.joined(separator: ", ")
+            self.showAlert(title: "Error", message: "Failed to save \(message)", preferredStyle: .alert, actions: [okAction, repeatAction], completion: nil)
+        }
+        self.backgroundView.isUserInteractionEnabled = true
     }
 }
-
-//MARK: - Work with image -
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    /// Choose image:
-    /// - Parameter source: source type.
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var newPhoto = UIImage()
         
-        guard UIImagePickerController.isSourceTypeAvailable(source) else { return }
+        if let photo = info[.editedImage] as? UIImage {
+            newPhoto = photo
+        } else if let photo = info[.originalImage] as? UIImage {
+            newPhoto = photo
+        } else {
+            return
+        }
         
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            present(imagePicker, animated: true)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        dismiss(animated: true, completion: nil)
+        avatarView.configure(image: newPhoto, cornerRadius: avatarViewWidth / 2)
         
-        avatarImageView.image = info[.editedImage] as? UIImage
-        avatarImageView.contentMode = .scaleAspectFill
-        avatarImageView.clipsToBounds = true
-        initialsLabel.isHidden = true
-        dismiss(animated: true)
-    }
-}
-
-//MARK: - Fix break constraint UIActionSheet -
-
-extension UIAlertController {
-    func pruneNegativeWidthConstraints() {
-        for subView in self.view.subviews {
-            for constraint in subView.constraints where constraint.debugDescription.contains("width == - 16") {
-                subView.removeConstraint(constraint)
+        let queue = DispatchQueue.global()
+        queue.async {
+            if newPhoto.pngData() == self.user.photo?.pngData() {
+                self.photoIsSame = true
+            } else {
+                self.photoIsSame = false
+            }
+            
+            DispatchQueue.main.async {
+                self.compareFields()
             }
         }
     }

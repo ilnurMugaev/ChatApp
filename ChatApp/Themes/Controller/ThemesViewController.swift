@@ -38,8 +38,8 @@ class ThemesViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
     }
     
-    override func willMove(toParent parent: UIViewController?) {
-        super.willMove(toParent: parent)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         ThemesManager.saveTheme(theme: selectedTheme)
     }

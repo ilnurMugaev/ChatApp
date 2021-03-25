@@ -48,4 +48,6 @@ struct ColorsDataManager {
                                         utilityFontColor: #colorLiteral(red: 0.5490196078, green: 0.5490196078, blue: 0.5803921569, alpha: 1),
                                         userInterfaceStyle: .dark,
                                         barStyle: .black)
+    
+    static let userPhotoBackgrounColor = UIColor(red: 0.89, green: 0.91, blue: 0.17, alpha: 1.00)
 }
