@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,12 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let logging = Logging.shared
     
     var loggingEnabled = true
+    
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
         
     // Приложение полностью загрузилось.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         logging.loggingEnabled = loggingEnabled
-        logging.printLog()
-        ThemesManager.applyTheme(theme: ThemesManager.currentTheme)
+        logging.printLog()        
+        ThemeManager.loadTheme()
         return true
     }
     

@@ -14,17 +14,13 @@ protocol ThemesPickerDelegate {
 
 class ThemesViewController: UIViewController {
 
-    @IBOutlet private weak var backgroundColorVIew: UIView!
-    @IBOutlet private var buttons: [UIButton]!
-    @IBOutlet private var labels: [UILabel]!
-    
-    private let navigationBarTitle = "Settings"
-    private let cancelTitle = "Cancel"
-    private let cornerRadius: CGFloat = 14
+    @IBOutlet var backgroundColorVIew: UIView!
+    @IBOutlet var buttons: [UIButton]!
+    @IBOutlet var labels: [UILabel]!
     
     var delegate: ThemesPickerDelegate?
-    var setThemeClosure: ((Theme) -> ())? = nil
-    var selectedTheme = ThemesManager.currentTheme
+    var setThemeClosure: ((Theme) -> Void)?
+    var selectedTheme = ThemeManager.currentTheme
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,46 +29,43 @@ class ThemesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupNavigationBar()
-        setupButtonsAndLabels()
+        setUpNavigationBar()
+        setUpButtonsAndLabels()
         navigationItem.largeTitleDisplayMode = .never
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        ThemesManager.saveTheme(theme: selectedTheme)
+        ThemeManager.saveTheme(theme: selectedTheme)
     }
     
-    func setupNavigationBar() {
-        navigationItem.title = navigationBarTitle
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: cancelTitle,
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(cancelTheme))
+    func setUpNavigationBar() {
+        navigationItem.title = "Settings"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTheme))
         navigationItem.rightBarButtonItem?.tintColor = .systemBlue
     }
     
     @objc func cancelTheme() {
-        selectedTheme = ThemesManager.currentTheme
+        selectedTheme = ThemeManager.currentTheme
         updateAppearance(theme: selectedTheme)
         navigationController?.popViewController(animated: true)
     }
         
-    func setupButtonsAndLabels() {
-        buttons.forEach { button in
-            button.layer.cornerRadius = cornerRadius
-            button.layer.masksToBounds  = true
+    func setUpButtonsAndLabels() {
+        buttons.forEach { (button) in
+            button.layer.cornerRadius = 14.0
+            button.layer.masksToBounds = true
             button.addTarget(self, action: #selector(setObjectSelected(_:)), for: .touchUpInside)
         }
         
-        labels.forEach { label in
+        labels.forEach { (label) in
             label.isUserInteractionEnabled = true
             label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setObjectSelected(_:))))
         }
         
-        backgroundColorVIew.backgroundColor = selectedTheme.colors.incomingMessageViewColor
-        setTheme(themeNumber: selectedTheme.rawValue)
+        backgroundColorVIew.backgroundColor = selectedTheme.colors.receivedMessageViewColor
+        setTheme(themeNo: selectedTheme.rawValue)
     }
     
     @objc func setObjectSelected(_ sender: AnyObject) {
@@ -84,23 +77,23 @@ class ThemesViewController: UIViewController {
             tag = label.tag
         }
         
-        setTheme(themeNumber: tag)
+        setTheme(themeNo: tag)
         
         selectedTheme = Theme(rawValue: tag) ?? Theme.classic
         updateAppearance(theme: selectedTheme)
     }
     
-    func setTheme(themeNumber: Int) {
+    func setTheme(themeNo: Int) {
         buttons.forEach { (button) in
             buttonSetDeselected(button: button)
         }
         
-        buttonSetSelected(button: buttons[themeNumber])
+        buttonSetSelected(button: buttons[themeNo])
     }
     
     func updateAppearance(theme: Theme) {
         
-        backgroundColorVIew.backgroundColor = theme.colors.incomingMessageViewColor
+        backgroundColorVIew.backgroundColor = theme.colors.receivedMessageViewColor
         
         //обновление ConversationsListViewController через делегат
         //delegate?.currentTheme = theme

@@ -8,17 +8,17 @@
 
 import UIKit
 
-struct ColorsModel {
+struct Colors {
     let backgroundColor: UIColor
     let onlineConversationColor: UIColor
-    let outgoingMessageViewColor: UIColor
-    let outgoingMessageFontColor: UIColor
-    let incomingMessageViewColor: UIColor
-    let incomingMessageFontColor: UIColor
+    let sentMessageViewColor: UIColor
+    let receivedMessageViewColor: UIColor
+    let sentMessageFontColor: UIColor
+    let receivedMessageFontColor: UIColor
     let UIElementColor: UIColor
     let tintColor: UIColor
-    let mainFontColor: UIColor
-    let utilityFontColor: UIColor
+    let baseFontColor: UIColor
+    let secondaryFontColor: UIColor
     let userInterfaceStyle: UIUserInterfaceStyle
     let barStyle: UIBarStyle
 }

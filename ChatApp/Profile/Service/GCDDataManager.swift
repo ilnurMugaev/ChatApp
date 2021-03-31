@@ -9,22 +9,21 @@
 import UIKit
 
 protocol SaveDataManager {
-    func saveData(name: String?, description: String?, photo: UIImage?, completion: @escaping ([String:Bool], [String]) -> ())
-    func loadData(completion: @escaping (String?, String?, UIImage?) -> ())
+    func saveData(name: String?, description: String?, photo: UIImage?, completion: @escaping ([String: Bool], [String]) -> Void)
+    func loadData(completion: @escaping (String?, String?, UIImage?) -> Void)
 }
 
 class GCDDataManager: SaveDataManager {
-    
     private let nameFilename = Constants.nameFileName
     private let descriptionFilename = Constants.descriptionFileName
     private let photoFilename = Constants.photoFileName
     private let themeFilename = Constants.themeFileName
     
-    func saveData(name: String?, description: String?, photo: UIImage?, completion: @escaping ([String:Bool], [String]) -> ()) {
+    func saveData(name: String?, description: String?, photo: UIImage?, completion: @escaping ([String: Bool], [String]) -> Void) {
         print("saving with GCD")
         
         guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        var savedFields: [String:Bool] = ["name": false,
+        var savedFields: [String: Bool] = ["name": false,
                                           "description": false,
                                           "photo": false]
         var fails = [String]()
@@ -37,6 +36,7 @@ class GCDDataManager: SaveDataManager {
                 do {
                     try name.write(to: directory.appendingPathComponent(self.nameFilename), atomically: true, encoding: .utf8)
                     savedFields["name"] = true
+                    Constants.senderName = name
                     print("saved name")
                 } catch {
                     fails.append("name")
@@ -74,7 +74,7 @@ class GCDDataManager: SaveDataManager {
         }
     }
     
-    func loadData(completion: @escaping (String?, String?, UIImage?) -> ()) {
+    func loadData(completion: @escaping (String?, String?, UIImage?) -> Void) {
         print("loading with GCD")
         var name: String?
         var description: String?
@@ -99,11 +99,10 @@ class GCDDataManager: SaveDataManager {
             do {
                 let photoData = try Data(contentsOf: directory.appendingPathComponent(self.photoFilename))
                 photo = UIImage(data: photoData)
-            }  catch {
+            } catch {
                 print(error.localizedDescription)
             }
 
-            
             completion(name, description, photo)
         }
     }
@@ -122,7 +121,7 @@ class GCDDataManager: SaveDataManager {
         }
     }
     
-    func loadTheme(completion: @escaping (Theme?) -> () ) {
+    func loadTheme(completion: @escaping (Theme?) -> Void) {
         guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             completion(nil)
             return
