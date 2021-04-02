@@ -92,13 +92,12 @@ class ProfileViewController: UIViewController, AlertPresentable {
         setUpConstraints()
         configureUIElements()
         
-        //загрузка данных через GCD
+        // загрузка данных через GCD
         saveDataManager = GCDDataManager()
         
-        //загрузка данных через Operation
+        // загрузка данных через Operation
 //        saveDataManager = OperationDataManager()
-        
-        activityIndicator.isHidden = false
+                
         activityIndicator.startAnimating()
         saveDataManager.loadData { (name, description, photo) in
             self.user.name = name ?? "No name"
@@ -150,7 +149,7 @@ class ProfileViewController: UIViewController, AlertPresentable {
                                             saveWithGCDButton.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 56),
                                             saveWithGCDButton.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
                                             saveWithGCDButton.heightAnchor.constraint(equalToConstant: 40)]
-        let saveWithOperationButtonConstraints =  [saveWithOperationButton.topAnchor.constraint(equalTo: saveWithGCDButton.bottomAnchor, constant: 10),
+        let saveWithOperationButtonConstraints = [saveWithOperationButton.topAnchor.constraint(equalTo: saveWithGCDButton.bottomAnchor, constant: 10),
                                                    saveWithOperationButton.leadingAnchor.constraint(equalTo: saveWithGCDButton.leadingAnchor),
                                                    saveWithOperationButton.centerXAnchor.constraint(equalTo: saveWithGCDButton.centerXAnchor),
                                                    saveWithOperationButton.heightAnchor.constraint(equalToConstant: 40),
@@ -303,7 +302,7 @@ class ProfileViewController: UIViewController, AlertPresentable {
     }
     
     func saveToFile(tag: Int) {
-        activityIndicator.isHidden = false
+        
         activityIndicator.startAnimating()
         
         self.backgroundView.isUserInteractionEnabled = false

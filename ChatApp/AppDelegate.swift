@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         logging.loggingEnabled = loggingEnabled
         logging.printLog()        
         ThemeManager.loadTheme()
+        CoreDataStack.shared.addObservers()
         return true
     }
     

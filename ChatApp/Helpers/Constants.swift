@@ -9,23 +9,23 @@
 import UIKit
 
 struct Constants {
-    //senderId
+    // senderId
     static let senderId = UIDevice.current.identifierForVendor?.uuidString ?? ""
     static var senderName = "No name"
     
-    //colors
+    // colors
     static let userPhotoBackgrounColor = UIColor(red: 0.89, green: 0.91, blue: 0.17, alpha: 1.00)
     static let contactPhotoBackgrounColor = UIColor(red: 0.89, green: 0.91, blue: 0.17, alpha: 1.00)
     static let onlineConversationCellBackgroundColor = UIColor(red: 1.00, green: 0.99, blue: 0.86, alpha: 1.00)
     static let sentMessageViewColor = UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00)
     static let receivedMessageViewColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
     
-    //font sizes
+    // font sizes
     static let navigationBarAvatarFontSize: CGFloat = 20
     static let contactAvatarFontSize: CGFloat = 24
     static let profileAvatarFontSize: CGFloat = 120
     
-    //color themes
+    // color themes
     static let classicTheme = Colors(backgroundColor: UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00),
                                      onlineConversationColor: UIColor(red: 1.00, green: 0.99, blue: 0.86, alpha: 1.00),
                                      sentMessageViewColor: UIColor(red: 0.86, green: 0.97, blue: 0.77, alpha: 1.00),
@@ -62,7 +62,7 @@ struct Constants {
                                    secondaryFontColor: UIColor(red: 0.55, green: 0.55, blue: 0.58, alpha: 1.00),
                                    userInterfaceStyle: .dark,
                                    barStyle: .black)
-    //file names
+    // file names
     static let nameFileName = "name.txt"
     static let descriptionFileName = "description.txt"
     static let photoFileName = "photo.txt"

@@ -16,10 +16,10 @@ protocol ViewModelFactory {
 }
 
 struct ConversationViewModelFactory: ViewModelFactory {
-    typealias Model = Channel
+    typealias Model = ChannelDB
     typealias ViewModel = ConversationCellModel
     
-    static func createViewModel(with model: Channel) -> ConversationCellModel {
+    static func createViewModel(with model: ChannelDB) -> ConversationCellModel {
         let name = model.name
         let message = model.lastMessage
         let date = model.lastActivity

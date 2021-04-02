@@ -30,7 +30,7 @@ class GCDDataManager: SaveDataManager {
         
         let queue = DispatchQueue.global()
         queue.async {
-            //добавил sleep для наглядности ожидания
+            // добавил sleep для наглядности ожидания
             sleep(2)
             if let name = name {
                 do {

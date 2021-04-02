@@ -54,7 +54,7 @@ class AvatarView: UIView {
         initialsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
-    func configure(image: UIImage? = nil, name: String? = nil, fontSize: CGFloat = 0, cornerRadius: CGFloat =  0) {
+    func configure(image: UIImage? = nil, name: String? = nil, fontSize: CGFloat = 0, cornerRadius: CGFloat = 0) {
         imageView.layer.cornerRadius = cornerRadius
         
         if let image = image {
@@ -78,4 +78,3 @@ class AvatarView: UIView {
         }
     }
 }
-

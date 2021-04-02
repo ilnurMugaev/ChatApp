@@ -22,7 +22,7 @@ class LoadOperation: Operation {
             return
         }
 
-        //добавил sleep для наглядности ожидания
+        // добавил sleep для наглядности ожидания
         sleep(2)
         
         if isCancelled {
