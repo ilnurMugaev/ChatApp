@@ -6,7 +6,6 @@
 //  Copyright © 2021 Ilnur Mugaev. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 @IBDesignable

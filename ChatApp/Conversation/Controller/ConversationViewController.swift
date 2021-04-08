@@ -11,13 +11,12 @@ import Firebase
 import CoreData
 
 class ConversationViewController: UIViewController, UITextViewDelegate, AlertPresentable {
-
+    
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.estimatedRowHeight = 1.0
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -57,9 +56,22 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
     }()
     
     var channel: ChannelDB?
-    private var messages = [Message]()
     var currentTheme = ThemeManager.currentTheme
     private var firebaseManager: FirebaseManager!
+    private lazy var fetchedResultsController: NSFetchedResultsController<MessageDB>! = {
+        let fetchRequest: NSFetchRequest<MessageDB> = MessageDB.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+        if let identifier = self.channel?.identifier {
+            fetchRequest.predicate = NSPredicate(format: "channel.identifier = %@", identifier)
+        }
+        fetchRequest.resultType = .managedObjectResultType
+        let context = CoreDataStack.shared.mainContext
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     private var textHeightConstraint: NSLayoutConstraint!
     private var maxTextHeightConstraint: NSLayoutConstraint!
     
@@ -75,9 +87,10 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         tableView.register(ReceivedMessageCell.self, forCellReuseIdentifier: "receivedMessageCell")
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.backgroundView = setUpBackgroundLabel()
+        tableView.separatorStyle = .none
         
         sendTextView.delegate = self
-    
+        
         sendButton.isUserInteractionEnabled = false
         sendButton.isHidden = true
         placeholderLabel.isHidden = false
@@ -87,36 +100,14 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         sendButton.addTarget(self, action: #selector(sendButtonPressed(_:)), for: .touchUpInside)
         
-        firebaseManager = FirebaseManager()
-        if let channel = self.channel {
-            firebaseManager.getMessages(with: channel.identifier) { (messages) in
-                let messages = messages.sorted { $0.created.compare($1.created) == .orderedDescending }
-                self.messages.insert(contentsOf: messages, at: 0)
-                self.tableView.reloadData()
-                
-                CoreDataStack.shared.performSave { (context) in
-                    let request: NSFetchRequest<ChannelDB> = ChannelDB.fetchRequest()
-                    request.predicate = NSPredicate(format: "identifier = %@", channel.identifier)
-                    do {
-                        let channelDB = try context.fetch(request).first
-                        if let channelDB = channelDB {
-                            messages.forEach { (message) in
-                                let messageDB = MessageDB(context: context)
-                                messageDB.identifier = message.identifier
-                                messageDB.content = message.content
-                                messageDB.created = message.created
-                                messageDB.senderId = message.senderId
-                                messageDB.senderName = message.senderName
-                                
-                                channelDB.addToMessages(messageDB)
-                            }
-                        }
-                    } catch {
-                        fatalError(error.localizedDescription)
-                    }
-                }
-            }
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("Error performing fetch: \(error)")
         }
+        
+        firebaseManager = FirebaseManager()
+        getMessages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -182,6 +173,39 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         placeholderLabel.centerYAnchor.constraint(equalTo: sendTextView.centerYAnchor, constant: 0).isActive = true
     }
     
+    func getMessages() {
+        if let channel = self.channel {
+            firebaseManager.getMessages(with: channel.identifier) { (addedMessages) in
+                CoreDataStack.shared.performSave { (context) in
+                    let request: NSFetchRequest<ChannelDB> = ChannelDB.fetchRequest()
+                    request.predicate = NSPredicate(format: "identifier = %@", channel.identifier)
+                    do {
+                        let channelDB = try context.fetch(request).first
+                        if let channelDB = channelDB {
+                            let messagesDB = self.fetchedResultsController.fetchedObjects ?? []
+                            for message in addedMessages {
+                                if messagesDB.contains(where: { $0.identifier == message.identifier }) {
+                                    continue
+                                } else {
+                                    let messageDB = MessageDB(context: context)
+                                    messageDB.identifier = message.identifier
+                                    messageDB.content = message.content
+                                    messageDB.created = message.created
+                                    messageDB.senderId = message.senderId
+                                    messageDB.senderName = message.senderName
+                                    
+                                    channelDB.addToMessages(messageDB)
+                                }
+                            }
+                        }
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
     func adjustTextViewHeight() {
         let fixedWidth = sendTextView.frame.size.width
         let newSize = sendTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
@@ -206,7 +230,7 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         placeholderLabel.isHidden = !textView.text.isEmpty
         adjustTextViewHeight()
     }
-        
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -214,13 +238,13 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
-
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -232,7 +256,7 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         sendButton.isHidden = true
         
         guard let text = sendTextView.text,
-        let channel = self.channel else { return }
+              let channel = self.channel else { return }
         let messageData = ["content": text,
                            "created": Timestamp(date: Date()),
                            "senderId": Constants.senderId,
@@ -246,24 +270,23 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
                 self.showAlert(title: "Error", message: "Failed to send message", preferredStyle: .alert, actions: [okAction], completion: nil)
             }
         }
-        
     }
 }
 
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if messages.isEmpty {
+        let array = fetchedResultsController.fetchedObjects ?? []
+        if array.isEmpty {
             tableView.backgroundView?.isHidden = false
-            tableView.separatorStyle = .none
             return 0
         } else {
             tableView.backgroundView?.isHidden = true
-            return messages.count
-        }
-        
+            return fetchedResultsController.fetchedObjects?.count ?? 0
+        }        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let messages = fetchedResultsController.fetchedObjects else { return UITableViewCell() }
         let message = messages[indexPath.row]
         let model = MessageViewModelFactory.createViewModel(with: message)
         
@@ -287,5 +310,43 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
         backgroundLabel.textAlignment = .center
         backgroundLabel.transform = CGAffineTransform(scaleX: 1, y: -1)
         return backgroundLabel
+    }
+}
+
+extension ConversationViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        print("begin update")
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                print("Inserted message at line \(newIndexPath)")
+            }
+        case .update:
+            if let indexPath = indexPath {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                print("Updated message at line \(indexPath)")
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                print("Deleted message at line \(indexPath)")
+            }
+        default:
+            print("Unknown message case")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        print("end update")
+        tableView.endUpdates()
     }
 }
