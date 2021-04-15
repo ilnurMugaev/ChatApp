@@ -13,6 +13,12 @@
 		BF08FAD625D8830E00D33DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD525D8830E00D33DEF /* Assets.xcassets */; };
 		BF08FAD925D8830E00D33DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */; };
 		BF08FAE325D8849800D33DEF /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08FAE225D8849800D33DEF /* Logging.swift */; };
+		BF28B5BF261780DB005EFAE3 /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BF28B5BD261780DB005EFAE3 /* Chat.xcdatamodeld */; };
+		BF28B5C226178187005EFAE3 /* MessageDB+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF28B5C126178187005EFAE3 /* MessageDB+CoreDataClass.swift */; };
+		BF28B5C5261781BA005EFAE3 /* MessageDB+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF28B5C4261781BA005EFAE3 /* MessageDB+CoreDataProperties.swift */; };
+		BF28B5C82617825B005EFAE3 /* ChannelDB+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF28B5C72617825B005EFAE3 /* ChannelDB+CoreDataClass.swift */; };
+		BF28B5CB26178290005EFAE3 /* ChannelDB+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF28B5CA26178290005EFAE3 /* ChannelDB+CoreDataProperties.swift */; };
+		BF28B5CE2617837B005EFAE3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF28B5CD2617837B005EFAE3 /* CoreDataStack.swift */; };
 		BF2DE7B42603E30700F8A496 /* GCDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2DE7B32603E30700F8A496 /* GCDDataManager.swift */; };
 		BF2DE7B72603E36B00F8A496 /* LoadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2DE7B62603E36B00F8A496 /* LoadOperation.swift */; };
 		BF2DE7BA2603E3AC00F8A496 /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2DE7B92603E3AC00F8A496 /* OperationDataManager.swift */; };
@@ -55,6 +61,12 @@
 		BF08FAD825D8830E00D33DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF08FADA25D8830E00D33DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF08FAE225D8849800D33DEF /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		BF28B5BE261780DB005EFAE3 /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
+		BF28B5C126178187005EFAE3 /* MessageDB+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageDB+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BF28B5C4261781BA005EFAE3 /* MessageDB+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageDB+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BF28B5C72617825B005EFAE3 /* ChannelDB+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChannelDB+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BF28B5CA26178290005EFAE3 /* ChannelDB+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChannelDB+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BF28B5CD2617837B005EFAE3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BF2DE7B32603E30700F8A496 /* GCDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDDataManager.swift; sourceTree = "<group>"; };
 		BF2DE7B62603E36B00F8A496 /* LoadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadOperation.swift; sourceTree = "<group>"; };
 		BF2DE7B92603E3AC00F8A496 /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
@@ -149,6 +161,7 @@
 				BF08FAD525D8830E00D33DEF /* Assets.xcassets */,
 				BF08FADA25D8830E00D33DEF /* Info.plist */,
 				BFB035E0260D11F500D52C8B /* GoogleService-Info.plist */,
+				BF28B5BD261780DB005EFAE3 /* Chat.xcdatamodeld */,
 				BFB035DC260D11D700D52C8B /* .swiftlint.yml */,
 				BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */,
 			);
@@ -180,6 +193,8 @@
 				BFB03601260D1C4B00D52C8B /* Channel.swift */,
 				BFB03604260D1C8E00D52C8B /* ConversationCellModel.swift */,
 				BFB035FE260D1BF200D52C8B /* ConversationViewModelFactory.swift */,
+				BF28B5C72617825B005EFAE3 /* ChannelDB+CoreDataClass.swift */,
+				BF28B5CA26178290005EFAE3 /* ChannelDB+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -218,6 +233,7 @@
 			children = (
 				BFB035EC260D14C700D52C8B /* AlertService.swift */,
 				BFB035E7260D145900D52C8B /* FirebaseManager.swift */,
+				BF28B5CD2617837B005EFAE3 /* CoreDataStack.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -275,6 +291,8 @@
 				BFB035F3260D1B2E00D52C8B /* Message.swift */,
 				BFB035F7260D1B7100D52C8B /* MessageCellModel.swift */,
 				BFB035FB260D1BAB00D52C8B /* MessageViewModelFactory.swift */,
+				BF28B5C126178187005EFAE3 /* MessageDB+CoreDataClass.swift */,
+				BF28B5C4261781BA005EFAE3 /* MessageDB+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -342,6 +360,7 @@
 				BF08FAC625D8830D00D33DEF /* Frameworks */,
 				BF08FAC725D8830D00D33DEF /* Resources */,
 				3FEE408D224C0C33A0A7886A /* [CP] Embed Pods Frameworks */,
+				BF28B5D1261790E3005EFAE3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -443,6 +462,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BF28B5D1261790E3005EFAE3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n  \"${PODS_ROOT}/SwiftLint/swiftlint\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -456,6 +492,8 @@
 				BFB0361E260D205600D52C8B /* ConversationCell.swift in Sources */,
 				BF2DE7B42603E30700F8A496 /* GCDDataManager.swift in Sources */,
 				BF2DE7B72603E36B00F8A496 /* LoadOperation.swift in Sources */,
+				BF28B5CE2617837B005EFAE3 /* CoreDataStack.swift in Sources */,
+				BF28B5C82617825B005EFAE3 /* ChannelDB+CoreDataClass.swift in Sources */,
 				BFD99E8B25F0198200946323 /* ConversationViewController.swift in Sources */,
 				BFB03614260D1EDD00D52C8B /* ReceivedMessageCell.swift in Sources */,
 				BF7D176025F942EA00012E0E /* ColorsModel.swift in Sources */,
@@ -463,8 +501,12 @@
 				BFB03623260D239F00D52C8B /* Constants.swift in Sources */,
 				BFB035E8260D145900D52C8B /* FirebaseManager.swift in Sources */,
 				BFB035FF260D1BF200D52C8B /* ConversationViewModelFactory.swift in Sources */,
+				BF28B5C5261781BA005EFAE3 /* MessageDB+CoreDataProperties.swift in Sources */,
+				BF28B5BF261780DB005EFAE3 /* Chat.xcdatamodeld in Sources */,
+				BF28B5C226178187005EFAE3 /* MessageDB+CoreDataClass.swift in Sources */,
 				BF7C432925EAE61600581B04 /* ConversationListViewController.swift in Sources */,
 				BF7D175D25F9429B00012E0E /* ThemesManager.swift in Sources */,
+				BF28B5CB26178290005EFAE3 /* ChannelDB+CoreDataProperties.swift in Sources */,
 				BF2DE7BA2603E3AC00F8A496 /* OperationDataManager.swift in Sources */,
 				BF08FACD25D8830D00D33DEF /* AppDelegate.swift in Sources */,
 				BFB035ED260D14C700D52C8B /* AlertService.swift in Sources */,
@@ -672,6 +714,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BF28B5BD261780DB005EFAE3 /* Chat.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BF28B5BE261780DB005EFAE3 /* Chat.xcdatamodel */,
+			);
+			currentVersion = BF28B5BE261780DB005EFAE3 /* Chat.xcdatamodel */;
+			path = Chat.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BF08FAC125D8830D00D33DEF /* Project object */;
 }

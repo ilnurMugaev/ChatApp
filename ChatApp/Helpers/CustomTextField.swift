@@ -6,6 +6,7 @@
 //  Copyright © 2021 Ilnur Mugaev. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 @IBDesignable
@@ -23,7 +24,7 @@ class CustomTextField: UITextField {
         didSet {
             self.padding.right = rightInset
         }
-    }    
+    }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)

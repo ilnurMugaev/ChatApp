@@ -81,5 +81,4 @@ class SentMessageCell: UITableViewCell, ConfigurableView {
         dateLabel.textColor = currentTheme.colors.secondaryFontColor
         dateLabel.text = model.created
     }
-
 }

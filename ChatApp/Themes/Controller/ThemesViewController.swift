@@ -95,11 +95,15 @@ class ThemesViewController: UIViewController {
         
         backgroundColorVIew.backgroundColor = theme.colors.receivedMessageViewColor
         
-        //обновление ConversationsListViewController через делегат
-        //delegate?.currentTheme = theme
+        // обновление ConversationsListViewController через делегат
+        // delegate?.currentTheme = theme
         
-        //обновление ConversationListViewController через замыкание
-        //мог бы возникнуть retain cycle ConversationsListViewController -> ThemesViewController -> setThemeClosure -> ConversationsListViewController, но в ConversationsListViewController ссылка на ThemesViewController создается в методе settingsBarButtonTapped, а не как переменная класса, значит цикла возникнуть не должно. Еще в самом ConversationsListViewController мог бы за счет использования self возникнуть цикл ViewController -> updateAppearanceClosure -> ViewController, но в замыкании используется [weak self], значит этого не случится.
+        // обновление ConversationListViewController через замыкание
+        // мог бы возникнуть retain cycle ConversationsListViewController -> ThemesViewController -> setThemeClosure ->
+        // ConversationsListViewController, но в ConversationsListViewController ссылка на ThemesViewController создается в методе
+        // settingsBarButtonTapped, а не как переменная класса, значит цикла возникнуть не должно. Еще в самом
+        // ConversationsListViewController мог бы за счет использования self возникнуть цикл ViewController ->
+        // updateAppearanceClosure -> ViewController, но в замыкании используется [weak self], значит этого не случится.
         if let closure = setThemeClosure {
             closure(theme)
         }

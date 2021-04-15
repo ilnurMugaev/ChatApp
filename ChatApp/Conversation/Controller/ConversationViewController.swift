@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import CoreData
 
 class ConversationViewController: UIViewController, UITextViewDelegate, AlertPresentable {
 
@@ -54,11 +56,10 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         return label
     }()
     
-    var channel: Channel?
+    var channel: ChannelDB?
     private var messages = [Message]()
     var currentTheme = ThemeManager.currentTheme
     private var firebaseManager: FirebaseManager!
-    
     private var textHeightConstraint: NSLayoutConstraint!
     private var maxTextHeightConstraint: NSLayoutConstraint!
     
@@ -70,23 +71,20 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         
         tableView.delegate = self
         tableView.dataSource = self
-
         tableView.register(SentMessageCell.self, forCellReuseIdentifier: "sentMessageCell")
         tableView.register(ReceivedMessageCell.self, forCellReuseIdentifier: "receivedMessageCell")
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.backgroundView = setUpBackgroundLabel()
         
         sendTextView.delegate = self
-        
+    
         sendButton.isUserInteractionEnabled = false
         sendButton.isHidden = true
-        
         placeholderLabel.isHidden = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
-        
         sendButton.addTarget(self, action: #selector(sendButtonPressed(_:)), for: .touchUpInside)
         
         firebaseManager = FirebaseManager()
@@ -95,6 +93,28 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
                 let messages = messages.sorted { $0.created.compare($1.created) == .orderedDescending }
                 self.messages.insert(contentsOf: messages, at: 0)
                 self.tableView.reloadData()
+                
+                CoreDataStack.shared.performSave { (context) in
+                    let request: NSFetchRequest<ChannelDB> = ChannelDB.fetchRequest()
+                    request.predicate = NSPredicate(format: "identifier = %@", channel.identifier)
+                    do {
+                        let channelDB = try context.fetch(request).first
+                        if let channelDB = channelDB {
+                            messages.forEach { (message) in
+                                let messageDB = MessageDB(context: context)
+                                messageDB.identifier = message.identifier
+                                messageDB.content = message.content
+                                messageDB.created = message.created
+                                messageDB.senderId = message.senderId
+                                messageDB.senderName = message.senderName
+                                
+                                channelDB.addToMessages(messageDB)
+                            }
+                        }
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
             }
         }
     }
@@ -110,7 +130,7 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-                
+        
         self.view.backgroundColor = currentTheme.colors.backgroundColor
     }
     
@@ -186,7 +206,7 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         placeholderLabel.isHidden = !textView.text.isEmpty
         adjustTextViewHeight()
     }
-    
+        
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -206,19 +226,21 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
     }
     
     @objc func sendButtonPressed(_ sender: Any) {
-
         view.endEditing(true)
         
         sendButton.isUserInteractionEnabled = false
         sendButton.isHidden = true
         
         guard let text = sendTextView.text,
-            let channel = self.channel else { return }
-        let message = Message(content: text)
+        let channel = self.channel else { return }
+        let messageData = ["content": text,
+                           "created": Timestamp(date: Date()),
+                           "senderId": Constants.senderId,
+                           "senderName": Constants.senderName] as [String: Any]
         self.sendTextView.text = ""
         textHeightConstraint.constant = 36
         placeholderLabel.isHidden = false
-        firebaseManager.sendMessage(channelId: channel.identifier, message: message) { (error) in
+        firebaseManager.sendMessage(channelId: channel.identifier, messageData: messageData) { (error) in
             if error != nil {
                 let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                 self.showAlert(title: "Error", message: "Failed to send message", preferredStyle: .alert, actions: [okAction], completion: nil)
