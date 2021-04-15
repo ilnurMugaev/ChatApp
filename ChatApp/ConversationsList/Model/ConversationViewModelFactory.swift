@@ -27,5 +27,5 @@ struct ConversationViewModelFactory: ViewModelFactory {
         let conversationCellModel = ConversationCellModel(name: name, message: message, date: date)
         
         return conversationCellModel
-    }    
+    }
 }

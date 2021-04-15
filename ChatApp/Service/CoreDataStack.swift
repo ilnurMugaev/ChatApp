@@ -77,7 +77,7 @@ class CoreDataStack {
             }
         }
     }
-
+    
     private func performSave(in context: NSManagedObjectContext) throws {
         context.perform {
             print("Is main thread: ", Thread.isMainThread)
@@ -99,7 +99,6 @@ class CoreDataStack {
     }
     
     @objc private func contextObjectsDidChange(notification: NSNotification) {
-
         guard let userInfo = notification.userInfo else {return}
         
         if let insertedObjects = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject> {
@@ -114,6 +113,7 @@ class CoreDataStack {
                 }
             }
         }
+        
         if let updatedObjects = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
             print("\nUpdated objects: \(updatedObjects.count)\n")
             if let updatedChannels = updatedObjects as? Set<ChannelDB> {
@@ -126,6 +126,7 @@ class CoreDataStack {
                 }
             }
         }
+        
         if let deletedObjects = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject> {
             print("\nDeleted objects: \(deletedObjects.count)\n")
             if let deletedChannels = deletedObjects as? Set<ChannelDB> {

@@ -254,7 +254,7 @@ class ProfileViewController: UIViewController, AlertPresentable {
         isEditingProfile.toggle()
         
         if isEditingProfile {
-            editBarButton.title = "Done"
+            editBarButton.title = "Cancel"
             
             nameTextField.isEnabled = true
             nameTextField.borderStyle = .line

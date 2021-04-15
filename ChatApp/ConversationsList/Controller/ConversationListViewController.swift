@@ -12,7 +12,7 @@ import CoreData
 class ConversationListViewController: UIViewController, ThemesPickerDelegate, AlertPresentable {
     
     @IBOutlet var tableView: UITableView!
-
+    
     var updateAppearanceClosure: ((Theme) -> Void)?
     var currentTheme = ThemeManager.currentTheme {
         didSet {
@@ -28,10 +28,10 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastActivity", ascending: false)]
         fetchRequest.resultType = .managedObjectResultType
         let context = CoreDataStack.shared.mainContext
-
+        
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
-
+        
         return fetchedResultsController
     }()
     
@@ -75,9 +75,8 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        configureNavigationElements()
         
+        configureNavigationElements()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,9 +100,8 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
                         channelDB.lastMessage = channel.lastMessage
                         channelDB.lastActivity = channel.lastActivity
                     }
-                    
                 }
-
+                
                 for channel in modifiedChannels {
                     let request: NSFetchRequest<ChannelDB> = ChannelDB.fetchRequest()
                     request.predicate = NSPredicate(format: "identifier = %@", channel.identifier)
@@ -118,7 +116,7 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
                         fatalError(error.localizedDescription)
                     }
                 }
-
+                
                 for channelId in removedChannelsIDs {
                     let request: NSFetchRequest<ChannelDB> = ChannelDB.fetchRequest()
                     request.predicate = NSPredicate(format: "identifier = %@", channelId)
@@ -134,7 +132,7 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
             }
         }
     }
-        
+    
     func configureNavigationElements() {
         let userButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         
@@ -151,7 +149,7 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
         let addChannelRightBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addChannelBarButtonPressed))
         
         let settingsLeftBarBurron = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsLeftBarButtonPressed))
-                
+        
         self.navigationItem.leftBarButtonItem = settingsLeftBarBurron
         self.navigationItem.rightBarButtonItems = [profileRightBarButton, addChannelRightBarButton]
     }
@@ -176,15 +174,15 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate, Al
     @objc func addChannelBarButtonPressed() {
         let alertController = UIAlertController(title: "Add channel", message: nil, preferredStyle: .alert)
         alertController.addTextField { (tf) in
-            tf.placeholder = "Enter hannel name"
+            tf.placeholder = "Enter channel name"
         }
         
         let  createAction = UIAlertAction(title: "Create", style: .default) { (_) in
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             
             if let channelName = alertController.textFields?.first?.text,
-            !channelName.isEmpty,
-            !(channelName.replacingOccurrences(of: " ", with: "") == "") {
+               !channelName.isEmpty,
+               !(channelName.replacingOccurrences(of: " ", with: "") == "") {
                 self.firebaseManager.addChannel(name: channelName) { (error) in
                     if error != nil {
                         self.showAlert(title: "Error", message: "Failed to create channel", preferredStyle: .alert, actions: [okAction], completion: nil)
@@ -214,15 +212,16 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "conversationCell") as? ConversationCell,
-            let channels = fetchedResultsController.fetchedObjects else { return ConversationCell() }
+              let channels = fetchedResultsController.fetchedObjects else { return ConversationCell() }
         let model = ConversationViewModelFactory.createViewModel(with: channels[indexPath.row])
-
+        
         cell.setUpAppearance(with: model, theme: currentTheme)
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
@@ -255,7 +254,7 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
                     let channelDB = try context.fetch(request).first
                     if let channelDB = channelDB {
                         context.delete(channelDB)
-                        firebaseManager.deleteChannel(id: channelDB.identifier)
+                        firebaseManager.deleteChannel(channelId: channelDB.identifier)
                     }
                 } catch {
                     fatalError(error.localizedDescription)
@@ -301,7 +300,7 @@ extension ConversationListViewController: NSFetchedResultsControllerDelegate {
                 print("Moved channel from line \(indexPath) to line \(newIndexPath)")
             }
         @unknown default:
-            print("Unknown case")
+            print("Unknown channel case")
         }
     }
     
