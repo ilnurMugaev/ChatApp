@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="TinkoffFintech" customModuleProvider="target">
+            <connections>
+                <outlet property="backgroundView" destination="KEO-Vy-AQS" id="iir-AD-6g5"/>
+                <outlet property="closeBarButton" destination="62t-Jj-LHX" id="d5y-8n-8w0"/>
+                <outlet property="editBarButton" destination="SVO-1w-C1h" id="J14-48-vVn"/>
+                <outlet property="view" destination="iN0-l3-epB" id="uEB-dG-f7e"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ioY-pC-Xiv">
+                    <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <items>
+                        <navigationItem title="My Profile" id="VOX-ot-bSS">
+                            <barButtonItem key="leftBarButtonItem" title="Close" id="62t-Jj-LHX">
+                                <connections>
+                                    <action selector="closeBarButtonPressed:" destination="-1" id="2s5-Be-12S"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" title="Edit" id="SVO-1w-C1h">
+                                <connections>
+                                    <action selector="editBarButtonPressed:" destination="-1" id="2wp-hz-G8K"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KEO-Vy-AQS" customClass="ProfileView" customModule="TinkoffFintech" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="140" width="414" height="722"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KEO-Vy-AQS" secondAttribute="trailing" id="Jhx-a8-1o1"/>
+                <constraint firstItem="KEO-Vy-AQS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="LTb-lX-YlP"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KEO-Vy-AQS" secondAttribute="bottom" id="ORv-ql-I6n"/>
+                <constraint firstItem="ioY-pC-Xiv" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="QVx-b3-0j6"/>
+                <constraint firstItem="KEO-Vy-AQS" firstAttribute="top" secondItem="ioY-pC-Xiv" secondAttribute="bottom" id="UZ9-1f-zXA"/>
+                <constraint firstItem="ioY-pC-Xiv" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="XLj-0P-6qj"/>
+                <constraint firstItem="ioY-pC-Xiv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="vra-cW-OKs"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="139" y="133"/>
+        </view>
+    </objects>
+</document>

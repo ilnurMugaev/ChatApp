@@ -13,6 +13,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private let rootAssembly = RootAssembly()
 
     let logging = Logging.shared
     
@@ -27,8 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         logging.loggingEnabled = loggingEnabled
         logging.printLog()        
-        ThemeManager.loadTheme()
-        CoreDataStack.shared.addObservers()
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let controller = rootAssembly.presentationAssembly.conversationListViewController().embedInNavigationController()
+        window?.rootViewController = controller
+        window?.makeKeyAndVisible()
+        
+        rootAssembly.addObservers()
         return true
     }
     

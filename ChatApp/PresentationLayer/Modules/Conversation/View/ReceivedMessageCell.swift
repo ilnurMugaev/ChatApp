@@ -1,0 +1,99 @@
+//
+//  ReceivedMessageCell.swift
+//  ChatApp
+//
+//  Created by Ilnur Mugaev on 25.03.2021.
+//  Copyright © 2021 Ilnur Mugaev. All rights reserved.
+//
+
+import UIKit
+
+class ReceivedMessageCell: UITableViewCell, ConfigurableView {
+
+    let messageView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let messageLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 11.0)
+        label.numberOfLines = 1
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setUpLayers()
+        self.selectionStyle = .none
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func setUpLayers() {
+        contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+        contentView.addSubview(messageView)
+        messageView.addSubview(nameLabel)
+        messageView.addSubview(messageLabel)
+        messageView.addSubview(dateLabel)
+        
+        messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0).isActive = true
+        messageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0).isActive = true
+        messageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5.0).isActive = true
+        messageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -contentView.frame.width / 4).isActive = true
+        
+        nameLabel.topAnchor.constraint(equalTo: messageView.topAnchor, constant: 5.0).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15.0).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -15.0).isActive = true
+        
+        messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5.0).isActive = true
+        messageLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15.0).isActive = true
+        messageLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor).isActive = true
+        messageLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -15.0).isActive = true
+        
+        dateLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -8).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: 165).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 13).isActive = true
+        dateLabel.bottomAnchor.constraint(equalTo: messageView.bottomAnchor, constant: -6).isActive = true
+    }
+    
+    func setUpAppearance(theme: Theme) {
+        contentView.backgroundColor = theme.colors.backgroundColor
+        messageView.backgroundColor = theme.colors.receivedMessageViewColor
+        
+        nameLabel.textColor = theme.colors.receivedMessageFontColor
+        messageLabel.textColor = theme.colors.receivedMessageFontColor
+        dateLabel.textColor = theme.colors.secondaryFontColor
+    }
+    
+    func configure(with model: MessageCellModel) {
+        nameLabel.text = model.senderName
+        messageLabel.text = model.content
+        dateLabel.text = model.created
+    }
+}

@@ -9,7 +9,6 @@
 import UIKit
 
 class AvatarView: UIView {
-    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -62,15 +61,10 @@ class AvatarView: UIView {
             initialsLabel.isHidden = true
             imageView.image = image
         } else if let name = name, !name.isEmpty {
-            
             imageView.isHidden = true
             initialsLabel.isHidden = false
-            let userInitials: String = {
-                let nameComponents = name.capitalized.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " ")
-                let userInitials = nameComponents.reduce("") { ($0 == "" ? "" : "\($0.first ?? Character(" "))") + "\($1.first ?? Character(" "))" }
-                return userInitials.trimmingCharacters(in: .whitespacesAndNewlines)
-            }()
-            initialsLabel.text = userInitials
+            let initials = name.capitalized.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first!)") + "\($1 == "" ? "" : "\($1.first!)")" }
+            initialsLabel.text = initials
             initialsLabel.font = UIFont.systemFont(ofSize: fontSize)
         } else {
             imageView.isHidden = true
