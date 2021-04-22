@@ -13,6 +13,7 @@ protocol PresentationAssemblyProtocol {
     func conversatioViewController() -> ConversationViewController
     func profileViewController() -> ProfileViewController
     func themesViewController() -> ThemesViewController
+    func imagePickerViewController() -> ImagePickerViewController
 }
 
 class PresentationAssembly: PresentationAssemblyProtocol {
@@ -54,7 +55,7 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     
     func profileViewController() -> ProfileViewController {
         var model = profileModel()
-        let profileVC = ProfileViewController(model: model)
+        let profileVC = ProfileViewController(presentationAssembly: self, model: model)
         model.userInfoDelegate = profileVC
         return profileVC
     }
@@ -74,4 +75,22 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     private func themesModel() -> ThemesModelProtocol {
         return ThemesModel(themeService: serviceAssembly.themeService)
     }
+    
+    func imagePickerViewController() -> ImagePickerViewController {
+        var model = imagePickerModel()
+        let cellModel = imageCellModel()
+        let imagePickerVC = ImagePickerViewController(model: model, cellModel: cellModel)
+        model.delegate = imagePickerVC
+        return imagePickerVC
+    }
+    
+    private func imagePickerModel() -> ImagePickerModelProtocol {
+        return ImagePickerModel(
+            themeService: serviceAssembly.themeService, allPhotosService: serviceAssembly.allPhotosService)
+    }
+    
+    private func imageCellModel() -> ImageCellModelProtocol {
+        return ImageCellModel(photoService: serviceAssembly.photoService)
+    }
+    
 }

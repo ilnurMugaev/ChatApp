@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ImagePickerDelegate {
+    func setImage(newPhoto: UIImage)
+    func startWaiting()
+    func stopWaiting()
+}
+
 class ProfileViewController: UIViewController, AlertPresentableProtocol, UserInfoDelegate {
 
     @IBOutlet var backgroundView: ProfileView!
@@ -27,6 +33,7 @@ class ProfileViewController: UIViewController, AlertPresentableProtocol, UserInf
     var imagePicker: UIImagePickerController!
     
     var currentTheme: Theme
+    private let presentationAssembly: PresentationAssemblyProtocol
     private let model: ProfileModelProtocol
     
     var user = User()
@@ -35,7 +42,8 @@ class ProfileViewController: UIViewController, AlertPresentableProtocol, UserInf
     var isEditingProfile = false
     var photoIsSame = true
     
-    init(model: ProfileModelProtocol) {
+    init(presentationAssembly: PresentationAssemblyProtocol, model: ProfileModelProtocol) {
+        self.presentationAssembly = presentationAssembly
         self.model = model
         self.currentTheme = model.currentTheme()
         
@@ -142,10 +150,22 @@ class ProfileViewController: UIViewController, AlertPresentableProtocol, UserInf
                 self.showAlert(title: "Error", message: "Camera is not available", preferredStyle: .alert, actions: [okAction], completion: nil)
             }
         }
+        let loadPhotoAction = UIAlertAction(title: "Load photo", style: .default) {[weak self] (_) in
+            let imagePickerVC = self?.presentationAssembly.imagePickerViewController()
+            imagePickerVC?.delegate = self
+            if let imagePickerVC = imagePickerVC {
+                print("present")
+                self?.present(imagePickerVC, animated: true, completion: nil)
+            }
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         let message = "Please choose one of the ways"
-        self.showAlert(title: "Edit photo", message: message, preferredStyle: .actionSheet, actions: [choosePhotoAction, takePhotoAction, cancelAction], completion: nil)
+        self.showAlert(title: "Edit photo",
+                       message: message,
+                       preferredStyle: .actionSheet,
+                       actions: [choosePhotoAction, takePhotoAction, loadPhotoAction, cancelAction],
+                       completion: nil)
     }
     
     @IBAction func editBarButtonPressed(_ sender: Any) {
@@ -251,6 +271,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         
         dismiss(animated: true, completion: nil)
+        setImage(newPhoto: newPhoto)
+    }
+}
+
+extension ProfileViewController: ImagePickerDelegate {
+    func setImage(newPhoto: UIImage) {
         backgroundView.configureAvatarView(with: newPhoto)
         
         let queue = DispatchQueue.global()
@@ -265,5 +291,15 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 self.compareFields()
             }
         }
+    }
+    
+    func startWaiting() {
+        backgroundView.visualEffectView.isHidden = false
+        backgroundView.avatarViewActivityIndicator.startAnimating()
+    }
+    
+    func stopWaiting() {
+        backgroundView.visualEffectView.isHidden = true
+        backgroundView.avatarViewActivityIndicator.stopAnimating()
     }
 }
