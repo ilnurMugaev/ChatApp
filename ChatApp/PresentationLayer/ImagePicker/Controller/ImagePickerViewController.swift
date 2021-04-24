@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImagePickerViewController: UIViewController, ImagePickerModelDelegate, AlertPresentableProtocol {
+class ImagePickerViewController: UIViewController, ImagePickerModelDelegate, AlertPresentableProtocol, UIGestureRecognizerDelegate {
 
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var closeButton: UIBarButtonItem!
@@ -30,6 +30,7 @@ class ImagePickerViewController: UIViewController, ImagePickerModelDelegate, Ale
     var currentTheme: Theme
     var delegate: ImagePickerDelegate?
     private let model: ImagePickerModelProtocol
+    private var emitter: EmitterAnimationService?
     private var cellModel: ImageCellModelProtocol
     
     init(model: ImagePickerModelProtocol, cellModel: ImageCellModelProtocol) {
@@ -47,12 +48,15 @@ class ImagePickerViewController: UIViewController, ImagePickerModelDelegate, Ale
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        emitter = EmitterAnimationService(vc: self)
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = currentTheme.colors.backgroundColor
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "imageCell")
 
         setLayout()
+        addSelectors()
         closeButton.tintColor = .systemBlue
         setUpActivityIndicator()
         activityIndicator.startAnimating()
@@ -71,6 +75,20 @@ class ImagePickerViewController: UIViewController, ImagePickerModelDelegate, Ale
         collectionView.collectionViewLayout = layout
     }
     
+    func addSelectors() {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        pan.cancelsTouchesInView = false
+        pan.delegate = self
+        
+        let touchDown = UILongPressGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        touchDown.minimumPressDuration = 0
+        touchDown.cancelsTouchesInView = false
+        touchDown.delegate = self
+        
+        collectionView.addGestureRecognizer(touchDown)
+        collectionView.addGestureRecognizer(pan)
+    }
+    
     func setUpActivityIndicator() {
         self.view.addSubview(activityIndicator)
         activityIndicator.hidesWhenStopped = true
@@ -83,6 +101,18 @@ class ImagePickerViewController: UIViewController, ImagePickerModelDelegate, Ale
         self.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: Emitter
+    @objc func handleTap(_ sender: UILongPressGestureRecognizer) {
+        emitter?.handleTap(sender)
+    }
+
+    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+        emitter?.handlePan(sender)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }
 
 extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewDataSource {

@@ -32,7 +32,6 @@
 		BF41CD752628DAD700CEF5A6 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CD742628DAD700CEF5A6 /* ConversationView.swift */; };
 		BF41CD782628DAFA00CEF5A6 /* Conversation.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF41CD772628DAFA00CEF5A6 /* Conversation.xib */; };
 		BF41CD7B2628DC0B00CEF5A6 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CD7A2628DC0B00CEF5A6 /* ProfileModel.swift */; };
-		BF41CD7F2628DC3A00CEF5A6 /* Profile.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF41CD7E2628DC3A00CEF5A6 /* Profile.xib */; };
 		BF41CD822628DC5400CEF5A6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CD812628DC5400CEF5A6 /* ProfileView.swift */; };
 		BF41CD872628DD8C00CEF5A6 /* ThemesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CD862628DD8C00CEF5A6 /* ThemesModel.swift */; };
 		BF41CD8A2628DDAF00CEF5A6 /* Themes.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF41CD892628DDAE00CEF5A6 /* Themes.xib */; };
@@ -48,6 +47,10 @@
 		BF41CDC32628E65900CEF5A6 /* FetchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CDC22628E65900CEF5A6 /* FetchManager.swift */; };
 		BF41CDC72628E6F200CEF5A6 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CDC62628E6F200CEF5A6 /* HelperFunctions.swift */; };
 		BF41CDCA2628E72100CEF5A6 /* ViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41CDC92628E72100CEF5A6 /* ViewController+Navigation.swift */; };
+		BF7670D02634C38000BF23C8 /* TinkoffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7670CF2634C38000BF23C8 /* TinkoffCell.swift */; };
+		BF7670D32634C48A00BF23C8 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7670D22634C48A00BF23C8 /* Animator.swift */; };
+		BF7670D72634C53A00BF23C8 /* Profile.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF7670D62634C53900BF23C8 /* Profile.xib */; };
+		BF7670DA2634C5C800BF23C8 /* EmitterAnimationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7670D92634C5C800BF23C8 /* EmitterAnimationService.swift */; };
 		BF7C432925EAE61600581B04 /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7C432825EAE61600581B04 /* ConversationListViewController.swift */; };
 		BF7D175525F941E100012E0E /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7D175425F941E100012E0E /* ThemesViewController.swift */; };
 		BF7D175D25F9429B00012E0E /* ThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7D175C25F9429B00012E0E /* ThemeService.swift */; };
@@ -105,7 +108,6 @@
 		BF41CD742628DAD700CEF5A6 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
 		BF41CD772628DAFA00CEF5A6 /* Conversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Conversation.xib; sourceTree = "<group>"; };
 		BF41CD7A2628DC0B00CEF5A6 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
-		BF41CD7E2628DC3A00CEF5A6 /* Profile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Profile.xib; sourceTree = "<group>"; };
 		BF41CD812628DC5400CEF5A6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		BF41CD862628DD8C00CEF5A6 /* ThemesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesModel.swift; sourceTree = "<group>"; };
 		BF41CD892628DDAE00CEF5A6 /* Themes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Themes.xib; sourceTree = "<group>"; };
@@ -121,6 +123,10 @@
 		BF41CDC22628E65900CEF5A6 /* FetchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchManager.swift; sourceTree = "<group>"; };
 		BF41CDC62628E6F200CEF5A6 /* HelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		BF41CDC92628E72100CEF5A6 /* ViewController+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Navigation.swift"; sourceTree = "<group>"; };
+		BF7670CF2634C38000BF23C8 /* TinkoffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinkoffCell.swift; sourceTree = "<group>"; };
+		BF7670D22634C48A00BF23C8 /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		BF7670D62634C53900BF23C8 /* Profile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Profile.xib; sourceTree = "<group>"; };
+		BF7670D92634C5C800BF23C8 /* EmitterAnimationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmitterAnimationService.swift; sourceTree = "<group>"; };
 		BF7C432825EAE61600581B04 /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
 		BF7D175425F941E100012E0E /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		BF7D175C25F9429B00012E0E /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
@@ -223,6 +229,7 @@
 			children = (
 				BFB035EC260D14C700D52C8B /* AlertService.swift */,
 				BF7D175C25F9429B00012E0E /* ThemeService.swift */,
+				BF7670D92634C5C800BF23C8 /* EmitterAnimationService.swift */,
 				BF41CDAF2628E45B00CEF5A6 /* ChannelsService */,
 				BF41CDBA2628E54800CEF5A6 /* MessageService */,
 				BF41CD932628DFAC00CEF5A6 /* SaveToFileService */,
@@ -369,6 +376,7 @@
 			children = (
 				BFB03604260D1C8E00D52C8B /* ConversationCellModel.swift */,
 				BF41CD682628D80C00CEF5A6 /* ConversationListModel.swift */,
+				BF7670D22634C48A00BF23C8 /* Animator.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -498,7 +506,7 @@
 		BFD99E8925F018CB00946323 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BF41CD7E2628DC3A00CEF5A6 /* Profile.xib */,
+				BF7670D62634C53900BF23C8 /* Profile.xib */,
 				BF41CD812628DC5400CEF5A6 /* ProfileView.swift */,
 			);
 			path = View;
@@ -519,6 +527,7 @@
 			children = (
 				BFB035F7260D1B7100D52C8B /* MessageCellModel.swift */,
 				BF41CD702628DA6100CEF5A6 /* ConversationModel.swift */,
+				BF7670CF2634C38000BF23C8 /* TinkoffCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -643,8 +652,8 @@
 				BF08FAD625D8830E00D33DEF /* Assets.xcassets in Resources */,
 				BF41CD8A2628DDAF00CEF5A6 /* Themes.xib in Resources */,
 				BFB035E2260D11F500D52C8B /* GoogleService-Info.plist in Resources */,
+				BF7670D72634C53A00BF23C8 /* Profile.xib in Resources */,
 				BF41CD782628DAFA00CEF5A6 /* Conversation.xib in Resources */,
-				BF41CD7F2628DC3A00CEF5A6 /* Profile.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +727,7 @@
 				BFB035F0260D1A0300D52C8B /* CustomTextField.swift in Sources */,
 				BFB03605260D1C8E00D52C8B /* ConversationCellModel.swift in Sources */,
 				BF41CD8F2628DE6E00CEF5A6 /* ServiceAssembly.swift in Sources */,
+				BF7670D32634C48A00BF23C8 /* Animator.swift in Sources */,
 				BF41CDAA2628E40400CEF5A6 /* ChannelsDataProvider.swift in Sources */,
 				BF925DD32631F601006877CE /* RequestManager.swift in Sources */,
 				BF08FAD125D8830D00D33DEF /* ProfileViewController.swift in Sources */,
@@ -732,6 +742,7 @@
 				BF925DE12631F877006877CE /* ImagePickerViewController.swift in Sources */,
 				BF925DF12631FB39006877CE /* AllPhotosService.swift in Sources */,
 				BF925DF42631FB88006877CE /* PhotoService.swift in Sources */,
+				BF7670DA2634C5C800BF23C8 /* EmitterAnimationService.swift in Sources */,
 				BF41CDB22628E4BB00CEF5A6 /* MessagesService.swift in Sources */,
 				BF41CDBF2628E5AD00CEF5A6 /* SaveToFileManager.swift in Sources */,
 				BF28B5C82617825B005EFAE3 /* ChannelDB+CoreDataClass.swift in Sources */,
@@ -753,6 +764,7 @@
 				BF41CD752628DAD700CEF5A6 /* ConversationView.swift in Sources */,
 				BF41CDAD2628E43300CEF5A6 /* ChannelsFetchedResultsService.swift in Sources */,
 				BF41CDC32628E65900CEF5A6 /* FetchManager.swift in Sources */,
+				BF7670D02634C38000BF23C8 /* TinkoffCell.swift in Sources */,
 				BF925DD62631F65B006877CE /* UrlRequest.swift in Sources */,
 				BF7D175D25F9429B00012E0E /* ThemeService.swift in Sources */,
 				BF28B5CB26178290005EFAE3 /* ChannelDB+CoreDataProperties.swift in Sources */,

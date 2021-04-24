@@ -12,7 +12,7 @@ protocol ThemesPickerDelegate {
     var currentTheme: Theme { get set }
 }
 
-class ThemesViewController: UIViewController {
+class ThemesViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet var backgroundColorVIew: UIView!
     @IBOutlet var labels: [UILabel]!
@@ -22,6 +22,7 @@ class ThemesViewController: UIViewController {
     var setThemeClosure: ((Theme) -> Void)?
     var selectedTheme: Theme
     private let model: ThemesModelProtocol
+    private var emitter: EmitterAnimationService?
     
     init(model: ThemesModelProtocol) {
         self.model = model
@@ -36,6 +37,8 @@ class ThemesViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        emitter = EmitterAnimationService(vc: self)
+        addSelectors()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +59,20 @@ class ThemesViewController: UIViewController {
         navigationItem.title = "Settings"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTheme))
         navigationItem.rightBarButtonItem?.tintColor = .systemBlue
+    }
+    
+    func addSelectors() {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        pan.cancelsTouchesInView = false
+        pan.delegate = self
+        
+        let touchDown = UILongPressGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        touchDown.minimumPressDuration = 0
+        touchDown.cancelsTouchesInView = false
+        touchDown.delegate = self
+        
+        self.view.addGestureRecognizer(touchDown)
+        self.view.addGestureRecognizer(pan)
     }
     
     @objc func cancelTheme() {
@@ -130,5 +147,18 @@ class ThemesViewController: UIViewController {
     func buttonSetDeselected(button: UIButton) {
         button.layer.borderWidth = 1.0
         button.layer.borderColor = UIColor(red: 0.59, green: 0.59, blue: 0.59, alpha: 1.00).cgColor
+    }
+    
+    // MARK: Emitter
+    @objc func handleTap(_ sender: UILongPressGestureRecognizer) {
+        emitter?.handleTap(sender)
+    }
+
+    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+        emitter?.handlePan(sender)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
