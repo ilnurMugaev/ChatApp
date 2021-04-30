@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImagePickerViewController" customModule="ChatApp" customModuleProvider="target">
+            <connections>
+                <outlet property="closeButton" destination="48c-S0-Ko4" id="R8b-87-D9b"/>
+                <outlet property="collectionView" destination="Sys-as-PCQ" id="3ro-gQ-d1C"/>
+                <outlet property="view" destination="iN0-l3-epB" id="zNj-v6-CeJ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Sys-as-PCQ">
+                    <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Hfo-cD-G3p">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="S8Y-ba-xAW"/>
+                        <outlet property="delegate" destination="-1" id="Z68-a5-b2i"/>
+                    </connections>
+                </collectionView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jS3-72-gY3">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <items>
+                        <navigationItem id="XFP-jv-Y6K">
+                            <barButtonItem key="leftBarButtonItem" title="Close" id="48c-S0-Ko4">
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="-1" id="EFO-4s-H13"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Sys-as-PCQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8aU-hP-YWg"/>
+                <constraint firstItem="jS3-72-gY3" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="LBL-01-WNB"/>
+                <constraint firstItem="jS3-72-gY3" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="M9E-tU-mCW"/>
+                <constraint firstItem="Sys-as-PCQ" firstAttribute="top" secondItem="jS3-72-gY3" secondAttribute="bottom" id="P3M-Fo-8iO"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Sys-as-PCQ" secondAttribute="trailing" id="fhK-R2-ttU"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Sys-as-PCQ" secondAttribute="bottom" id="p3b-Uj-dRp"/>
+                <constraint firstItem="jS3-72-gY3" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="pFe-k2-zFP"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="133"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

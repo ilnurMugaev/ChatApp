@@ -79,6 +79,7 @@ class ConversationCell: UITableViewCell, ConfigurableView {
     }
     
     func setUpAppearance(theme: Theme) {
+        bgView.backgroundColor = theme.colors.backgroundColor
         nameLabel.textColor = theme.colors.baseFontColor
         dateLabel.textColor = theme.colors.secondaryFontColor
         messageLabel.textColor = theme.colors.secondaryFontColor

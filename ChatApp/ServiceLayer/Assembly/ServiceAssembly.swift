@@ -16,6 +16,8 @@ protocol ServiceAssemblyProtocol {
     var gcdFileService: SaveDataToFileServiceProtocol { get }
     var operationFileService: SaveDataToFileServiceProtocol { get }
     var themeService: ThemeServiceProtocol { get }
+    var allPhotosService: AllPhotosServiceProtocol { get }
+    var photoService: PhotoServiceProtocol { get }
 }
 
 class ServiceAssembly: ServiceAssemblyProtocol {
@@ -34,4 +36,6 @@ class ServiceAssembly: ServiceAssemblyProtocol {
     lazy var gcdFileService: SaveDataToFileServiceProtocol = GCDFileService(saveToFileManager: self.coreAssembly.saveToFileManager)
     lazy var operationFileService: SaveDataToFileServiceProtocol = OperationFileService(saveToFileManager: self.coreAssembly.saveToFileManager)
     lazy var themeService: ThemeServiceProtocol = ThemeService(gcdFileService: GCDFileService(saveToFileManager: self.coreAssembly.saveToFileManager))
+    lazy var allPhotosService: AllPhotosServiceProtocol = AllPhotosService(requestManager: self.coreAssembly.requestManager)
+    lazy var photoService: PhotoServiceProtocol = PhotoService(requestManager: self.coreAssembly.requestManager)
 }

@@ -16,6 +16,22 @@ class ProfileView: UIView {
         return view
     }()
     
+    var visualEffectView: UIVisualEffectView = {
+        let veView = UIVisualEffectView()
+        veView.translatesAutoresizingMaskIntoConstraints = false
+        veView.effect = UIBlurEffect(style: .light)
+        veView.clipsToBounds = true
+        return veView
+    }()
+    
+    var avatarViewActivityIndicator: UIActivityIndicatorView = {
+         let indicator = UIActivityIndicatorView()
+         indicator.translatesAutoresizingMaskIntoConstraints = false
+         indicator.style = .gray
+         indicator.hidesWhenStopped = true
+         return indicator
+    }()
+    
     var nameTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +90,8 @@ class ProfileView: UIView {
         self.addSubview(descriptionTextView)
         self.addSubview(saveWithGCDButton)
         self.addSubview(saveWithOperationButton)
+        avatarView.addSubview(visualEffectView)
+        avatarView.addSubview(avatarViewActivityIndicator)
         
         let avatarViewConstraints = [avatarView.heightAnchor.constraint(equalToConstant: avatarViewWidth),
                                      avatarView.widthAnchor.constraint(equalToConstant: avatarViewWidth),
@@ -95,12 +113,20 @@ class ProfileView: UIView {
                                                    saveWithOperationButton.centerXAnchor.constraint(equalTo: saveWithGCDButton.centerXAnchor),
                                                    saveWithOperationButton.heightAnchor.constraint(equalToConstant: 40),
                                                    saveWithOperationButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30)]
+        let visualEffectViewConstraints = [visualEffectView.topAnchor.constraint(equalTo: avatarView.topAnchor),
+                                           visualEffectView.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
+                                           visualEffectView.bottomAnchor.constraint(equalTo: avatarView.bottomAnchor),
+                                           visualEffectView.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor)]
+        let avatarViewActivityIndicatorConstraints = [avatarViewActivityIndicator.centerXAnchor.constraint(equalTo: avatarView.centerXAnchor),
+                                                      avatarViewActivityIndicator.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor)]
         
         NSLayoutConstraint.activate(avatarViewConstraints)
         NSLayoutConstraint.activate(nameTextFieldConstraints)
         NSLayoutConstraint.activate(descriptionTextViewConstraints)
         NSLayoutConstraint.activate(saveWithGCDButtonConstraints)
         NSLayoutConstraint.activate(saveWithOperationButtonConstraints)
+        NSLayoutConstraint.activate(visualEffectViewConstraints)
+        NSLayoutConstraint.activate(avatarViewActivityIndicatorConstraints)
     }
     
     func configureAvatarView(with user: User) {
@@ -116,6 +142,8 @@ class ProfileView: UIView {
     func setUpElements() {
         avatarView.isUserInteractionEnabled = true
         avatarView.layer.cornerRadius = avatarViewWidth / 2
+        visualEffectView.layer.cornerRadius = avatarViewWidth / 2
+        visualEffectView.isHidden = true
         
         nameTextField.isEnabled = false
         descriptionTextView.isEditable = false

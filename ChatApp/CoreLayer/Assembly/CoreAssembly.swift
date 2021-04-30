@@ -13,6 +13,7 @@ protocol CoreAssemblyProtocol {
     var coreDataManager: CoreDataManagerProtocol { get }
     var saveToFileManager: SaveToFileManagerProtocol { get }
     var fetchManager: FetchManagerProtocol { get }
+    var requestManager: RequestManagerProtocol { get }
 }
 
 class CoreAssembly: CoreAssemblyProtocol {
@@ -20,4 +21,5 @@ class CoreAssembly: CoreAssemblyProtocol {
     lazy var coreDataManager: CoreDataManagerProtocol = CoreDataManager()
     lazy var saveToFileManager: SaveToFileManagerProtocol = SaveToFileManager()
     lazy var fetchManager: FetchManagerProtocol = FetchManager(coreDataManager: self.coreDataManager)
+    lazy var requestManager: RequestManagerProtocol = RequestManager(urlSession: URLSession.shared)
 }
