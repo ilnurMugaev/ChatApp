@@ -33,7 +33,7 @@ class RequestManager: RequestManagerProtocol {
         }
         
         if let cachedResponse = URLCache.shared.cachedResponse(for: urlRequest) {
-            print("Data from cache")
+            print("Data from cache", cachedResponse.data)
             completion(.success(cachedResponse.data))
             return
         }
@@ -56,6 +56,7 @@ class RequestManager: RequestManagerProtocol {
     }
     
     private func cacheData(data: Data, response: URLResponse) {
+        print("cache data")
         guard let responseURL = response.url else { return }
         let cachedResponse = CachedURLResponse(response: response, data: data)
         URLCache.shared.storeCachedResponse(cachedResponse, for: URLRequest(url: responseURL))
