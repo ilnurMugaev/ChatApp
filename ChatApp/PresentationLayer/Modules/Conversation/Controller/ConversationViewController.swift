@@ -8,13 +8,18 @@
 
 import UIKit
 
-class ConversationViewController: UIViewController, UITextViewDelegate, AlertPresentableProtocol, MessagesFetchedResultsServiceDelegate {
+class ConversationViewController: UIViewController,
+                                  UITextViewDelegate,
+                                  AlertPresentableProtocol,
+                                  MessagesFetchedResultsServiceDelegate,
+                                  UIGestureRecognizerDelegate {
     
     @IBOutlet var conversationView: ConversationView!
     
     var channel: ChannelDB?
     var currentTheme: Theme
     private let model: ConversationModelProtocol
+    private var emitter: EmitterAnimationService?
     
     init(model: ConversationModelProtocol) {
         self.model = model
@@ -33,6 +38,8 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        emitter = EmitterAnimationService(vc: self)
+        
         navigationItem.title = channel?.name
         navigationItem.largeTitleDisplayMode = .never
                 
@@ -46,8 +53,8 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        conversationView.tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
-        conversationView.sendButton.addTarget(self, action: #selector(sendButtonPressed(_:)), for: .touchUpInside)
+        
+        addSelectors()
         
         model.makeFetchedResultsController(channelIdentifier: channel?.identifier)
         model.getMessages(channelId: channel?.identifier)
@@ -65,6 +72,23 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         super.viewDidLayoutSubviews()
         
         self.view.backgroundColor = currentTheme.colors.backgroundColor
+    }
+    
+    func addSelectors() {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        pan.cancelsTouchesInView = false
+        pan.delegate = self
+        
+        let touchDown = UILongPressGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        touchDown.minimumPressDuration = 0
+        touchDown.cancelsTouchesInView = false
+        touchDown.delegate = self
+        
+        conversationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+        conversationView.addGestureRecognizer(pan)
+        conversationView.addGestureRecognizer(touchDown)
+        
+        conversationView.sendButton.addTarget(self, action: #selector(sendButtonPressed(_:)), for: .touchUpInside)
     }
     
     func setUpUppearance() {
@@ -144,7 +168,7 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         conversationView.sendButton.isHidden = true
         
         guard let text = conversationView.sendTextView.text,
-            let channel = self.channel else { return }
+              let channel = self.channel else { return }
         
         print("send text: \(text)")
         model.sendMessage(in: self, channelId: channel.identifier, text: text)
@@ -152,5 +176,18 @@ class ConversationViewController: UIViewController, UITextViewDelegate, AlertPre
         conversationView.sendTextView.text = ""
         textHeightConstraint.constant = 36
         conversationView.placeholderLabel.isHidden = false
+    }
+    
+    // MARK: Emitter
+    @objc func handleTap(_ sender: UILongPressGestureRecognizer) {
+        emitter?.handleTap(sender)
+    }
+
+    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+        emitter?.handlePan(sender)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
