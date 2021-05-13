@@ -13,4 +13,4 @@ jobs:
     env:
     SECRETS_URL: ${{ secrets.SECRETS_URL }}
       run: |
-      bundle exec fastlane build_and_run_test
+      bundle exec fastlane build_and_run_tests
