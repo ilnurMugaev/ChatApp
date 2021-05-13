@@ -1,11 +1,16 @@
-name: CI
-on: [push]
-jobs:
+name: Cl 
+on: [push] 
+jobs: 
   build:
-    runs-on: macos-latest
+    runs-on: macOS-latest 
     steps:
-    - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
+    - uses: actions/checkout@vl
+    - uses: ruby/setup-ruby@vl
+      with:
+        ruby-version: 2.6 
+        bundler-cache: true
+    - name: Build and run tests
     env:
-    SECRETS_URL: ${{ secrets.SECRETS_URL }}
-      run: bundle exec fastlane
+        SECRETS_URL: ${{ secrets.SECRETS_URL }}
+      run: |
+        bundle exec fastlane build_and_run_tests
