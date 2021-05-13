@@ -43,5 +43,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>ApiKey</key>
+	<string>$(API_KEY)</string>
 </dict>
 </plist>

@@ -1,0 +1,66 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Install dependencies and build app for testing"
+  lane :build_for_testing do
+    cocoapods
+    scan(
+      clean: true,
+      build_for_testing: true,
+      derived_data_path: "DerivedData/"
+    )
+  end
+
+  desc "Run tests on built app"
+  lane :run_tests_without_building do
+    scan(
+      derived_data_path: "DerivedData/",
+      test_without_building: true
+    )
+  end
+
+  desc "Send notification to Discord"
+  lane :send_notification_to_discord do |options|
+
+    DISCORD_WEBHOOK_URL = ENV['DISCORD_WEBHOOK']
+    discord(
+    url: DISCORD_WEBHOOK_URL ,
+    app_name: 'ChatApp',
+    platform: 'ios', 
+    version: '1.0',
+    build_number: '1'
+    )
+  end
+
+  desc "Run build_for_testing and run_tests_without_building lanes"
+  lane :build_and_run_tests do
+    build_for_testing
+    run_tests_without_building
+    send_notification_to_discord(
+      message: "Build and tests finished.",
+      image_url: "https://www.meme-arsenal.com/memes/01407ddd1273ccc7bca1659d77d8256c.jpg",
+      success: true
+    )
+    rescue
+      send_notification_to_discord(
+        message: "Lane failed: #{$!}",
+        image_url: "https://www.meme-arsenal.com/memes/e74f84f5b2117a75bdd45979cadcad0e.jpg",
+        success: false
+      )
+  end
+end

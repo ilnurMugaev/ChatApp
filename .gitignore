@@ -4,3 +4,10 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 *.DS_Store
+
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/test_output
+**/fastlane/.env
+
+**/Config.xcconfig

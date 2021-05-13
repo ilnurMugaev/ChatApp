@@ -166,6 +166,7 @@
 		BF7D175425F941E100012E0E /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		BF7D175C25F9429B00012E0E /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
 		BF7D175F25F942EA00012E0E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		BF81DE7F264DAEAC004065BF /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		BF925DD22631F601006877CE /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		BF925DD52631F65B006877CE /* UrlRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlRequest.swift; sourceTree = "<group>"; };
 		BF925DD92631F7ED006877CE /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -275,6 +276,7 @@
 				BF08FADA25D8830E00D33DEF /* Info.plist */,
 				BFB035E0260D11F500D52C8B /* GoogleService-Info.plist */,
 				BF28B5BD261780DB005EFAE3 /* Chat.xcdatamodeld */,
+				BF81DE7F264DAEAC004065BF /* Config.xcconfig */,
 				BFB035DC260D11D700D52C8B /* .swiftlint.yml */,
 				BF08FAD725D8830E00D33DEF /* LaunchScreen.storyboard */,
 			);
@@ -1111,7 +1113,7 @@
 		};
 		BF08FADE25D8830E00D33DEF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07B5DCB5A666BA4A9F07F95E /* Pods-ChatApp.debug.xcconfig */;
+			baseConfigurationReference = BF81DE7F264DAEAC004065BF /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1155,7 +1157,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 45HC849D5Z;
 				INFOPLIST_FILE = ChatAppUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1175,7 +1177,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 45HC849D5Z;
 				INFOPLIST_FILE = ChatAppUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1197,7 +1199,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 45HC849D5Z;
 				INFOPLIST_FILE = ChatAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1219,7 +1221,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 45HC849D5Z;
 				INFOPLIST_FILE = ChatAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

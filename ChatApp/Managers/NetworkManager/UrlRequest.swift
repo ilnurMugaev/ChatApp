@@ -23,9 +23,10 @@ class AllPhotosRequest: UrlRequestProtocol {
     var urlComponents = URLComponents(string: "https://pixabay.com/api/")
     
     var urlRequest: URLRequest? {
+        let apiKey = Bundle.main.object(forInfoDictionaryKey: "ApiKey") as? String ?? ""
         var urlComponents = URLComponents(string: baseUrlString)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "key", value: Constants.apiKey),
+            URLQueryItem(name: "key", value: apiKey),
             URLQueryItem(name: "q", value: searchText),
             URLQueryItem(name: "image_type", value: Constants.imageType),
             URLQueryItem(name: "per_page", value: Constants.perPage)

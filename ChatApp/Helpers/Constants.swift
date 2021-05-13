@@ -12,7 +12,6 @@ struct Constants {
     // senderId
     static let senderId = UIDevice.current.identifierForVendor?.uuidString ?? ""
     static var senderName = "No name"
-    static let apiKey = "19099745-2e27ab96f19dd46a70f143587"
     
     // colors
     static let userPhotoBackgrounColor = UIColor(red: 0.89, green: 0.91, blue: 0.17, alpha: 1.00)
