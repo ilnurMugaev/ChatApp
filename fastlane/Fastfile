@@ -37,7 +37,7 @@ platform :ios do
   desc "Send notification to Discord"
   lane :send_notification_to_discord do |options|
 
-    DISCORD_WEBHOOK_URL = ENV['DISCORD_WEBHOOK']
+    DISCORD_WEBHOOK_URL = ENV['SECRETS_URL']
     discord(
     url: DISCORD_WEBHOOK_URL ,
     app_name: 'ChatApp',
