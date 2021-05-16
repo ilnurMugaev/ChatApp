@@ -100,6 +100,7 @@ class ConversationListViewController: UIViewController,
         userAvatarViewSnaphot = userAvatarView.snapshotView(afterScreenUpdates: true)
         
         let profileRightBarButton = UIBarButtonItem(customView: userButton)
+        profileRightBarButton.accessibilityIdentifier = "profileButton"
         let addChannelRightBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addChannelBarButtonPressed))
         
         let settingsLeftBarBurron = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsLeftBarButtonPressed))

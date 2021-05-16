@@ -8,5 +8,9 @@ target 'ChatApp' do
   # Pods for ChatApp
   pod 'Firebase/Firestore', '7.8'
   pod 'SwiftLint'
+  
+  target 'ChatAppTests' do
+    inherit! :search_paths
+  end
 
 end
