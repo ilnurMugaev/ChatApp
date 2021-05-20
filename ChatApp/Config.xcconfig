@@ -1,0 +1,14 @@
+//
+//  Config.xcconfig
+//  ChatApp
+//
+//  Created by Ilnur Mugaev on 13.05.2021.
+//  Copyright © 2021 Ilnur Mugaev. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Pods/Target Support Files/Pods-ChatApp/Pods-ChatApp.debug.xcconfig"
+
+API_KEY = 19099745-2e27ab96f19dd46a70f143587
